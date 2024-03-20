@@ -1,0 +1,24 @@
+h1{
+    position:absolute;
+    top:200px;
+    color: white;
+    left: 250px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:55px;
+}
+h2{
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    top:300px ;
+    color: white;
+    right:600px;
+   
+}
+#head{
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    top:350px;
+    font-size:25px;
+    left:400px;
+}

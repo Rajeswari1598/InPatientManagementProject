@@ -1,0 +1,8 @@
+package com.admin.exception;
+
+public class Snippet {
+	public BedAllocationDto() {
+		super();
+	}
+}
+

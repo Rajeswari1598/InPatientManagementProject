@@ -1,0 +1,74 @@
+<div style="z-index:1;position: relative;padding-top:10%;">
+  <label style="z-index:1;position: relative;color: white;">Enter Patient Number:</label>
+  <input style="z-index:1 ;color:black" id="PatientNo" [(ngModel)]="patientNumber" type="text" placeholder="Enter Patient Number">&nbsp;
+  <button style="z-index:1 ;color:black" type="submit" (click)="fetchDetails()">Submit</button>
+</div>
+
+<br>
+<br>
+
+<div *ngIf="details" style="position: relative;left:250px;z-index:1;border: 1px solid #ccc; padding: 20px; border-radius: 5px;  width:550px ;height:350px;background-color:white;">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="bedNo">Bed Number:</label>
+        <input type="text" id="bedNo" name="bedNo" [(ngModel)]="details.bedNo" class="form-control" disabled>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="roomNo">Room Number:</label>
+        <input type="text" id="roomNo" name="roomNo" [(ngModel)]="details.roomNo" class="form-control" disabled>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="wardName">Ward Name:</label>
+        <input type="text" id="wardName" name="wardName" [(ngModel)]="details.wardName" class="form-control" disabled>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="departmentName">Department Name:</label>
+        <input type="text" id="departmentName" name="departmentName" [(ngModel)]="details.departmentName" class="form-control" disabled>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" [(ngModel)]="details.startDate" class="form-control">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" [(ngModel)]="details.endDate" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" [(ngModel)]="details.status" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <button (click)="updateDetails()" class="btn btn-primary" style="position: relative;left:200px">Update</button>
+    </div>
+  </div>
+</div>

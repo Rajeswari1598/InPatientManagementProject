@@ -1,0 +1,46 @@
+.popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+    width: 400px; /* Adjust width as needed */
+    max-width: 90%;
+    height: 200px; /* Adjust height as needed */
+    max-height: 90%;
+    overflow: auto; /* Add scrollbars if content exceeds height */
+}
+
+.popup-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.popup-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.popup-actions {
+    text-align: right;
+}
+
+.popup-actions button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+}
+
+.popup-actions button:hover {
+    background-color: #0056b3;
+}

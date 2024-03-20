@@ -1,0 +1,30 @@
+<section class=" gradient-custom ">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card  text-dark" style="border-radius: 1rem;height:350px;width:430px;background-color:rgba(95, 158, 160, 0.696);right:95px;top:100px;">
+            <div class="card-body p-5 text-center">
+              <form class="mb-md-5 mt-md-4 pb-5" [formGroup]="forgotForm" (ngSubmit)="generateOTP()">
+  
+                <h2 class="fw-small mb-2 text-uppercase fs-2 text">Forgot Password</h2>
+  
+                <div class="form-outline form-white mb-4">
+                  <label class="form-label" for="typeEmailX" style="font-size:20px;position: relative;right:140px">Email</label>
+                  <input type="email" id="typeEmailX" class="form-control form-control-lg" formControlName="email" placeholder="Enter Email"/>
+                  <div *ngIf="forgotForm.get('email')?.invalid && forgotForm.get('email')?.touched" class="text-danger">
+                    <span *ngIf="forgotForm.get('email')?.errors?.['required']">Email is required</span>
+                    <span *ngIf="forgotForm.get('email')?.errors?.['email']">Invalid email format</span>
+                  </div>
+                </div>
+                <button class="btn btn-outline-dark btn-lg px-2 text-white bg-dark" type="submit" style="position:relative;width:110px ;">Send Otp</button> 
+                <!-- <p *ngIf="otp">Generated OTp:{{otp}}</p> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- <section>
+    <router-outlet></router-outlet>
+  </section> -->

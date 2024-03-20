@@ -1,0 +1,31 @@
+package com.patient.billing.service.service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import com.patient.billing.service.bean.BedAllocationBean;
+import com.patient.billing.service.bean.PatientBean;
+import com.patient.billing.service.bean.PatientBillingBean;
+import com.patient.billing.service.dto.BedAllocationDto;
+import com.patient.billing.service.dto.PatientBillingDTO;
+import com.patient.billing.service.entity.PatientBillingEntity;
+
+public interface PatientBillingService {
+
+	PatientBillingBean getById(Integer patientBillingId);
+
+	PatientBean getPatitentDetails(int patitentId);
+
+	Optional<List<PatientBillingDTO>> getAllDetails();
+
+	Optional<List<PatientBillingDTO>> filterByDateRange(LocalDate startDate, LocalDate endDate);
+
+	void updateStatus(PatientBillingEntity patientBillingEntity);
+
+	Optional<BedAllocationDto> getByPatientNo(String number);
+
+	void save(BedAllocationDto patientBillingBean);
+
+}

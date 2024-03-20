@@ -1,0 +1,10 @@
+package com.patient.billing.service.constants;
+
+public class CommonConstants {
+
+	public static final String INACTIVE = "InActive";
+	public static final String ACTIVE = "Active";
+	private static final String PENDING="Pending";
+	private static final String COMPLETED="Completed";
+	private static final int PAIDAMOUNT=1000;
+}

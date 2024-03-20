@@ -1,0 +1,65 @@
+<div class="container-fluid" style="padding-top:10%;">
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col-11">
+              <div class="row mb-3">
+                <div class="col d-flex justify-content-end">
+                  <button class="btn btn-dark me-2" (click)="addNewRow()" style="position:relative;right:290px;width:120px;border-radius: 10px;height: 45px; top:30px;">Add</button>
+                </div>
+              </div>
+              <div class="tablediv" >
+                <h2 style="color: white;text-align: center;position:relative;max-width: 700px; bottom: 60px;right:50px;" >Departments</h2>
+              <table class="table" style="position:relative;width:700px;max-height:400px;justify-content: center; box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.717); border-collapse: collapse; right:20px;top:15px;">
+                <thead>
+                  <tr> 
+                    <th style="position:relative;width:50px;height:45px;">Name</th>
+                    <th style="position:relative;width:40px;margin:0;padding:0;">Status</th>
+                    <th style="position:relative;width:50px;align-items: center;">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let department of departments; let i = index">
+                    <tr>
+                      <td style="position:relative;max-width:80px;max-height: 45px;">
+                        <ng-container *ngIf="!isEditMode(i); else editMode">
+                          {{ department.name }}
+                        </ng-container>
+                        <ng-template #editMode>
+                          <input type="text" [(ngModel)]="department.name" (keyup.enter)="editDepartment(i)">
+                        </ng-template>
+                      </td>
+                      <td>{{ department.status }}</td>
+                      <td>
+                        <ng-container *ngIf="!isEditMode(i)">
+                          <button class="btn btn-lg" (click)="toggleEditMode(i)"><i class="fa-regular fa-pen-to-square" ></i></button>
+                        </ng-container>
+                        <button class="btn btn-lg" (click)="deleteDepartment(department)"><i class="fa-solid fa-trash-can" style="color:red;"></i></button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <tr *ngIf="showNewRow">
+                     <!-- <td><input type="number" [(ngModel)]="newDepartment.id"></td>  -->
+                    <td><input type="text" [(ngModel)]="newDepartment.name"></td>
+                    <td><input type="text" [(ngModel)]="newDepartment.status"></td>
+                    <td>
+                      <button class="btn btn-primary me-2" (click)="submitNewDepartment()">Submit</button>
+                    </td>
+                  </tr>
+                 </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+    <div class="pagination" style="position:relative;left:100px;">
+      <button [disabled]="isPreviousButtonDisabled()" (click)="onPageChange(currentPage -1)"  style="z-index:1;">Previous</button>
+      <button [disabled]="isNextButtonDisabled()" (click)="onPageChange(currentPage +1)"  style="z-index:1;">Next</button>
+    </div>
+    
+    
+    
+    
+
+
+
+ 

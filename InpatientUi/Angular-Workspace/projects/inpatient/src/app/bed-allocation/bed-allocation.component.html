@@ -1,0 +1,113 @@
+
+<div class="col d-flex justify-content-end">
+  <a class="btn btn-dark me-2" routerLink="edit"  style="position:relative;top:70px;right:260px; width: 120px; height: 45px;" >Edit</a>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card" style="position:relative;width:700px;height:550px;right:150px;top:40px">
+          <div class="card-body">
+            <h5 class="card-title" style="text-align:center;align-items: center;"> Bed Allocation</h5>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+             
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:30px;">
+                    <label for="patientId">Enter Patient ID:</label>
+                    <input type="text" id="patientId" formControlName="patientId" class="form-control" min="1" required placeholder="Enter PatientId">
+                  </div>
+                </div>
+                <!-- <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:30px;">
+                    <label for="noOfDays">Enter Number of Days:</label>
+                    <input type="number" id="noOfDays" formControlName="noOfDays" class="form-control" min="1" required placeholder="Enter Number of days">
+                  </div>
+                </div> -->
+              </div>
+             
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:50px;">
+                    <label for="startDate">Enter Start Date:</label>
+                    <input type="date" id="startDate" formControlName="startDate" class="form-control" required placeholder="Enter Start Date">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:50px;">
+                    <label for="endDate">Enter End Date:</label>
+                    <input type="date" id="endDate" formControlName="endDate" class="form-control" required placeholder="Enter end Date">
+                  </div>
+                </div>
+              </div>
+             
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:70px;">
+                    <label for="department">Select Department:</label>
+                    <select id="department" formControlName="department" (change)="onMedicationChange()" class="form-control" style="background-color:aliceblue">
+                      <option *ngFor="let department of medicationNames" [value]="department.id">{{ department.name }}</option>
+                    </select>
+                    <div *ngIf="!medicationSelected && form.get('ward')?.touched" class="text-danger">Please choose a department first.</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:70px;">
+                    <label for="ward">Select Ward:</label>
+                    <select id="ward" formControlName="ward" (change)="onWardChange()" class="form-control" style="background-color:aliceblue">
+                      <option *ngFor="let ward of wardNames" [value]="ward.id">{{ ward.name }}</option>
+                    </select>
+                    <div *ngIf="!wardSelected && form.get('roomType')?.touched" class="text-danger">Please choose a ward first.</div>
+                  </div>
+                </div>
+              </div>
+             
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:90px;">
+                    <br>
+                    <label for="roomType">Select Room Type:</label>
+                    <select id="roomType" formControlName="roomType" style="background-color:aliceblue" >   
+                     
+                      <option>--select--</option>
+                      <option *ngFor="let room of roomTypeNames">{{ room.name }}</option>
+                    </select>
+                    <div *ngIf="!roomTypeSelected && form.get('room')?.touched" class="text-danger">Please choose a room type first.</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:90px;">
+                    <label for="room">Select Room:</label>
+                    <select id="room" formControlName="room" (change)="onRoomChange()" class="form-control" style="background-color:aliceblue">
+                      <option *ngFor="let room of roomNumbers" [value]="room.id">{{ room.roomNo }}</option>
+                    </select>
+                    <!-- <div *ngIf="!roomSelected && form.get('bedNo')?.touched" class="text-danger">Please choose a room first.</div> -->
+                  </div>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:110px;">
+                    <label for="bedNo">Select Bed:</label>
+                    <select id="bedNo" formControlName="bedNo" (change)="onBedChange()" class="form-control" style="background-color:aliceblue">
+                      <option *ngFor="let bed of bedNumbers" [value]="bed.id">{{ bed.bedNo}}</option>
+                    </select>
+                    <div *ngIf="!bedSelected && form.get('bedNo')?.touched" class="text-danger">Please choose a bed first.</div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-6">
+                  <div class="form-group" style=" position: relative;top:110px;">
+                    <label for="status">Enter Status:</label>
+                    <input type="text" id="status" formControlName="status" class="form-control" required placeholder="Enter Status">
+                  </div>
+                </div> -->
+              </div>
+              <br>
+              <button type="submit" class="btn  btn-block" style=" position: relative;top:110px;left:270px;background-color: black;border-radius: 10px;color: white;width:120px">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

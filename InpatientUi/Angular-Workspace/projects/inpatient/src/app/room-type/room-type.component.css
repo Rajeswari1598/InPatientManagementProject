@@ -1,0 +1,50 @@
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+.gradient-custom{
+    position: relative;
+    background-color:teal;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    height:80px;
+    width:100%;
+}
+.container-fluid{
+    position:relative;
+    width: 100%;
+    /* margin: 0%; */
+    /* margin-left: 0%;
+    right:15px; */
+    height: 780px;
+    padding: 0;
+    margin: 0;
+    background:url('https://www.laudclinic.com/wp-content/uploads/2020/05/InPatient-Services.jpg');
+    background-position: center;
+   background-size: cover;
+   background-repeat: no-repeat;
+}
+.container-fluid:before {
+    position:absolute;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    content:"";
+    height: 780px;
+}
+/* .img{
+   position: relative;
+   height: 730px;
+   width: 100%;
+   background-position: center;
+   background-size: cover;
+   padding: 10px 8%;
+   background-repeat: no-repeat; 
+   position: fixed;
+   background-image:url('https://www.laudclinic.com/wp-content/uploads/2020/05/InPatient-Services.jpg');
+} */
+.row{
+    position: relative;
+    right:9px;
+}

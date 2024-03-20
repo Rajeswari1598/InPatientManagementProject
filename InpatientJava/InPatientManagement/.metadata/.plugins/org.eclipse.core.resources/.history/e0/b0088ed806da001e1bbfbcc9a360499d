@@ -1,0 +1,221 @@
+package com.patient.billing.service.serviceimplimentation;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.patient.billing.service.bean.BedAllocationBean;
+import com.patient.billing.service.bean.BedBean;
+import com.patient.billing.service.bean.PatientBean;
+import com.patient.billing.service.bean.PatientBillingBean;
+import com.patient.billing.service.bean.RoomBean;
+import com.patient.billing.service.controller.PatientBillingController;
+import com.patient.billing.service.dto.BedAllocationDto;
+import com.patient.billing.service.dto.PatientBillingDTO;
+import com.patient.billing.service.entity.BedEntity;
+import com.patient.billing.service.entity.CustomMonth;
+import com.patient.billing.service.entity.PatientBillingEntity;
+import com.patient.billing.service.entity.PatientEntity;
+import com.patient.billing.service.entity.RoomEntity;
+import com.patient.billing.service.exception.BillingDetailsNotFoundException;
+import com.patient.billing.service.exception.BillingIdNotFoundException;
+import com.patient.billing.service.exception.PatientNumberNotFoundException;
+import com.patient.billing.service.repository.PatientBillingRepository;
+import com.patient.billing.service.service.PatientBillingService;
+
+@Service
+public class PatientBillingServiceImplimentation implements PatientBillingService {
+	@Autowired
+	private PatientBillingRepository patientBillingRepository;
+	@Autowired
+	private RestTemplate restTemplate;
+	private static Logger log = LoggerFactory.getLogger(PatientBillingController.class.getSimpleName());
+	
+
+	
+
+	@Override
+	public PatientBean getPatitentDetails(int patitentid) {
+
+		String url = "http://localhost:8081/registration/" + patitentid;
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+		ResponseEntity<PatientBean> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+				new ParameterizedTypeReference<PatientBean>() {
+				});
+//				if(responseEntity!=null) {
+
+		PatientBean patitentBean = responseEntity.getBody();
+		return patitentBean;
+	}
+//		else
+//		{
+//			//throw new PatitentDetailsNotFoundException("Patitent Details Not found");
+//		}
+//	
+
+	// }
+
+	@Override
+	public void save(BedAllocationDto billing) {
+
+		PatientBillingEntity patientBillingEntity = new PatientBillingEntity();
+		log.info("saving the billing details");
+		beanToEntity(patientBillingEntity, billing);
+
+		patientBillingRepository.save(patientBillingEntity);
+
+	}
+
+	private void beanToEntity(PatientBillingEntity patientBillingEntity, BedAllocationDto bedAllocation) {
+		patientBillingEntity.setBillingDate(LocalDate.now());
+		patientBillingEntity.setBedAllocationId(bedAllocation.getId());
+		int bedAllocationId = patientBillingEntity.getBedAllocationId();
+		
+		int days = bedAllocation.getNoOfDays();
+		BedEntity BedBean = bedAllocation.getBedId();
+		RoomEntity room = BedBean.getRoomId();
+		int roomBean = BedBean.getBedNo();
+		double roomPrice = room.getRoomPrice();
+
+		double totalAmount = roomPrice * days;
+		patientBillingEntity.setRecordStatus("Active");
+		patientBillingEntity.setPaidAmount(1000);
+		patientBillingEntity.setTotalAmount(totalAmount);
+		double remainingAmount = totalAmount - 1000;
+		patientBillingEntity.setRemainingAmount(remainingAmount);
+		if (remainingAmount + 1000 == totalAmount) {
+
+			patientBillingEntity.setPaymentStatus("completed");
+		} else {
+			patientBillingEntity.setPaymentStatus("completed");
+		}
+
+	}
+
+	
+
+	
+	@Override
+	public PatientBillingBean getById(Integer patientBillingId) {
+
+		PatientBillingBean patientBillingBean = new PatientBillingBean();
+		if (patientBillingRepository.existsById(patientBillingId)) {
+			Optional<PatientBillingEntity> patientEntity = patientBillingRepository.findById(patientBillingId);
+			entityToBean(patientEntity.get(), patientBillingBean);
+
+		}
+
+		else {
+			throw new BillingIdNotFoundException("billing id not found");
+		}
+		return patientBillingBean;
+	}
+
+	
+
+	
+
+
+	public void entityToBean(PatientBillingEntity patientBillingEntity, PatientBillingBean patientBillingBean) {
+
+		// PatientBillingBean patientbean = new PatientBillingBean();
+
+		patientBillingBean.setBillId(patientBillingEntity.getBillId());
+
+//		 int k=patientBillingEntity.getBedAllocationId();
+//			BedAllocationBean bedAllocationBean=getDetails(k);
+//			patientBillingBean.setBedAllocationId(bedAllocationBean);
+//		int patientBillingId = patientBillingEntity.getBedAllocationId();
+//		int days=bedAllocationBean.getNoOfDays();
+//		BedBean BedBean=bedAllocationBean.getBedId();
+//		 RoomBean roomBean = BedBean.getRoomId();
+//		 double roomPrice=roomBean.getRoomPrice();
+//		double amount=roomPrice*days;
+
+		patientBillingBean.setBedAllocationId(patientBillingEntity.getBedAllocationId());
+		patientBillingBean.setBillingDate(patientBillingEntity.getBillingDate());
+		patientBillingBean.setPaidAmount(patientBillingEntity.getPaidAmount());
+		patientBillingBean.setDiscount(patientBillingEntity.getDiscount());
+		patientBillingBean.setPaymentStatus(patientBillingEntity.getPaymentStatus());
+		patientBillingBean.setTotalAmount(patientBillingEntity.getTotalAmount());
+		patientBillingBean.setStatus(patientBillingEntity.getStatus());
+
+	}
+
+	@Override
+	public Optional<List<PatientBillingDTO>> getAllDetails() {
+
+		Optional<List<PatientBillingDTO>> billingDetails = patientBillingRepository.getBillingResults();
+		log.info("getting the billing details");
+		if (billingDetails.isPresent()) {
+			log.info("getting the billing details sucessfully");
+			return billingDetails;
+		} else {
+			log.info("billing details not found");
+			throw new BillingDetailsNotFoundException();
+
+		}
+
+	}
+
+	@Override
+	public Optional<List<PatientBillingDTO>> filterByDateRange(LocalDate startDate, LocalDate endDate) {
+		Optional<List<PatientBillingDTO>> billingDetails = patientBillingRepository.findByBillingDateBetween(startDate,
+				endDate);
+		log.info("getting the billing details based on start date and end date");
+		if (billingDetails.isPresent()) {
+			log.info("get billing details based on start date and end date sucessfully");
+			return billingDetails;
+
+		} else {
+			throw new BillingDetailsNotFoundException("billing details are not found in this dates");
+		}
+	}
+
+	@Override
+
+	public void updateStatus(PatientBillingEntity patientBillingEntity) {
+		log.info("updating the status  of billing");
+
+		patientBillingEntity.setStatus("InActive");
+		patientBillingRepository.save(patientBillingEntity);
+		log.info("updated the status  sucessfully");
+	}
+
+	@Override
+	public Optional<BedAllocationDto> getByPatientNo(String number) {
+		if (number != null) {
+			log.info("getting the details by using patient number");
+			Optional<BedAllocationDto> details = patientBillingRepository.findPatientDataByPatientNumber(number);
+			if (details.isPresent()) {
+				log.info("get the details by using patient number is done");
+				return details;
+			} else {
+				throw new BillingDetailsNotFoundException("Billing detals not found with this patient number");
+			}
+		} else {
+			throw new PatientNumberNotFoundException("Patient number is not found");
+		}
+	}
+
+	
+
+}

@@ -1,0 +1,327 @@
+<div class="container">
+  <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+    <div class="d-flex">
+      <div
+        style="
+          background-color: white;
+          width: 500px;
+          height: 60px;
+          z-index: 1;
+          position: relative;
+          top: 20px;
+          left: 470px;
+          border-radius: 10px;
+        "
+      >
+        <label
+          for="patientNumber"
+          class="form-label"
+          style="
+            z-index: 1;
+            position: relative;
+            color: black;
+            top: 20px;
+            left: 30px;
+          "
+          ><b>Patient Number:</b></label
+        ><br />
+        <input
+          placeholder="Enter Patient Number"
+          type="text"
+          id="patientNumber"
+          class="form-control"
+          formControlName="patientNumber"
+          required
+          style="
+            position: relative;
+            width: 200px;
+            bottom: 20px;
+            left: 160px;
+            border: 1px solid black;
+          "
+        />
+        <!-- <div *ngIf="patientForm.get('patientNumber')?.errors?.['required']">
+                First Name is required.
+              </div> -->
+      </div>
+      <div style="margin-top: 30px">
+        <button
+          type="submit"
+          class="btn"
+          style="
+            margin-left: 20px;
+            z-index: 1;
+            position: relative;
+            right: 100px;
+            top: 2px;
+            left: 350px;
+          "
+        >
+          <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div
+  style="
+    margin-top: 4px;
+    padding: 10px;
+    z-index: 1;
+    position: relative;
+    height: 500px;
+    width: 700px;
+  "
+  class="billing"
+>
+  <form
+    *ngIf="billingForm"
+    [formGroup]="billingForm"
+    style="
+      border: 2px solid gray;
+      border-radius: 10px;
+      position: relative;
+      left: 20px;
+      width: 800px;
+      height: 595px;
+      z-index: 1;
+      background-color: white;
+      top: 10px;
+    "
+  >
+    <h5
+      class="card-title"
+      style="text-align: center; align-items: center; margin-top: 10px"
+    >
+      Billing
+    </h5>
+    <div style="position: relative; top: 20px">
+      <div class="d-flex">
+        <div>
+          <label for="firstName" class="form-label"><b>First Name</b></label>
+          <input
+            type="text"
+            id="firstName"
+            class="form-control"
+            formControlName="firstName"
+            required
+          />
+        </div>
+        <div style="margin-left: 20px">
+          <label for="lastName" class="form-label"><b>Last Name</b></label>
+          <input
+            type="text"
+            id="lastName"
+            class="form-control"
+            formControlName="lastName"
+            required
+          />
+        </div>
+        <div style="margin-left: 20px">
+          <label for="patientGender" class="form-label"
+            ><b>Patient Gender</b></label
+          >
+          <input
+            type="text"
+            id="patientGender"
+            class="form-control"
+            formControlName="patientGender"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="d-flex">
+        <div>
+          <label for="patientAge" class="form-label"><b>Patient Age</b></label>
+          <input
+            type="number"
+            id="patientAge"
+            class="form-control"
+            formControlName="patientAge"
+            required
+          />
+        </div>
+        <div style="margin-left: 20px">
+          <div>
+            <label for="patientContactNo" class="form-label"
+              ><b>Contact Number</b></label
+            >
+            <input
+              type="number"
+              id="patientContactNo"
+              class="form-control"
+              formControlName="patientContactNo"
+              required
+            />
+          </div>
+        </div>
+        <div formGroupName="bedId">
+          <div formGroupName="roomId">
+            <div formGroupName="wardId" style="margin-left: 20px">
+              <label for="name" class="form-label"><b>Ward Name</b></label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control"
+                required
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex">
+        <div style="width: 230px">
+          <label for="startDate" class="form-label"><b>Start Date</b></label>
+          <input
+            type="date"
+            id="startDate"
+            class="form-control"
+            formControlName="startDate"
+            required
+          />
+        </div>
+        <div style="margin-left: 20px; width: 230px">
+          <div>
+            <label for="endDate" class="form-label"><b>End Date</b></label>
+            <input
+              type="date"
+              id="endDate"
+              class="form-control"
+              formControlName="endDate"
+              required
+            />
+          </div>
+        </div>
+        <div style="margin-left: 18px">
+          <div>
+            <label for="noOfDays" class="form-label"><b>No of Days</b></label>
+            <input
+              type="number"
+              id="noOfDays"
+              class="form-control"
+              formControlName="noOfDays"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <div formGroupName="bedId">
+        <div formGroupName="roomId">
+          <div class="d-flex">
+            <div formGroupName="roomTypeId">
+              <label for="name" class="form-label"><b>Room Type</b></label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control"
+                required
+              />
+            </div>
+            <div style="margin-left: 20px">
+              <label for="roomNo" id="roomNo" class="form-label"
+                ><b>RoomNo</b></label
+              >
+              <input
+                type="text"
+                id="roomNo"
+                formControlName="roomNo"
+                class="form-control"
+                required
+              />
+            </div>
+            <div style="margin-left: 20px">
+              <label for="roomPrice" class="form-label"
+                ><b>RoomPrice (per day)</b></label
+              ><br />
+              <input
+                type="text"
+                id="roomPrice"
+                formControlName="roomPrice"
+                class="form-control"
+                required
+              />
+              <!-- <p>Total Amount (no.of days * room Price) : {{billingForm.get('noOfDays')?.value * billingForm.get('bedId.roomId.roomPrice')?.value}}</p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div formGroupName="bedId">
+          <label for="bedNo" class="form-label"><b>Bed No</b></label
+          ><br />
+          <input
+            type="number"
+            id="bedNo"
+            formControlName="bedNo"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div style="margin-left: 20px">
+          <label for="paidAmount" class="form-label"><b>Paid Amount</b></label>
+          <input
+            type="text"
+            id="paidAmount"
+            class="form-control"
+            formControlName="paidAmount"
+            required
+          />
+        </div>
+        <div style="margin-left: 20px">
+          <label for="totalAmount" class="form-label"
+            ><b>Total Amount</b></label
+          >
+          <input
+            type="text"
+            id="totalAmount"
+            class="form-control"
+            formControlName="totalAmount"
+            required
+          />
+        </div>
+      </div>
+      <div class="d-flex">
+        <div>
+          <label for="remainingAmount" class="form-label"
+            ><b>Remaining Amount</b></label
+          >
+          <input
+            type="number"
+            id="remainingAmount"
+            class="form-control"
+            formControlName="remainingAmount"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            type="button"
+            class="btn"
+            (click)="saveBillingForm()"
+            style="
+              position: relative;
+              left: 40%;
+              bottom: 30px;
+              background-color: black;
+              width: 120px;
+              height: 45px;
+              color: white;
+            "
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

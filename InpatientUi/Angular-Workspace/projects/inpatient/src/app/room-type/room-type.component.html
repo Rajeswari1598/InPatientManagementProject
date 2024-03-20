@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <div class="gradient-custom">
+        <div><h2 class="fw-bold mb-2 text-uppercase" style="position:relative;top:20px;">Inpatient Management System</h2></div>
+    
+    <div *ngIf="isLogged()">
+        <button  class="btn btn-outline-dark btn-lg px-2 text-white bg-dark" style="position:relative;bottom:30px;left:670px;width:120px;border-radius:10px;" (click)="logout()">Logout</button>
+    </div>
+    
+      
+    </div>
+    <!-- <div class="row">
+        
+        <div class="col-8" >
+            <router-outlet></router-outlet> 
+        </div>
+    </div> -->
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</div>
+ 
+
+

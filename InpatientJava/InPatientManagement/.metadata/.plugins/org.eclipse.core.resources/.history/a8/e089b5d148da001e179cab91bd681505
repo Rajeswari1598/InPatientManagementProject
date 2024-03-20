@@ -1,0 +1,17 @@
+package com.admin.exception;
+
+public class WardCapacityExceededException extends RuntimeException{
+
+	public WardCapacityExceededException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public WardCapacityExceededException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+}

@@ -1,0 +1,29 @@
+.pagination {
+  text-align: center;
+}
+
+.pagination button {
+  background-color:black; /* Green background */
+  border: none;
+  color: white; /* White text */
+  padding: 10px 15px; /* Some padding */
+  text-align: center; /* Centered text */
+  text-decoration: none; /* No underline */
+  display: inline-block; /* Make it inline */
+  font-size: 16px; /* Increase font size */
+  margin: 0px 10px; /* Add some margin */
+  cursor: pointer; /* Pointer cursor on hover */
+  border-radius: 5px; /* Rounded corners */
+  margin-left: 0px;
+}
+
+.pagination button:hover {
+  background-color: black; /* Darker green on hover */
+}
+
+.pagination button:disabled {
+  background-color: #cccccc; /* Grey background when disabled */
+  cursor: not-allowed; /* Not allowed cursor when disabled */
+}
+
+/* You can add more specific styling if needed */

@@ -1,0 +1,52 @@
+
+<div style="position:relative; top:150px; right: 110px;width:550px;background-color:white;height:45px;">
+  <label for="startDate" style="z-index:1;position: relative;color:black;top:10px;left:10px;">Start Date:</label>
+<input type="date" id="startDate" [(ngModel)]="startDate" style="position:relative;left:15px;top:10px">
+<div *ngIf=" searchForm.get('startDate')?.touched" class="text-danger">Please choose start date</div>
+
+<label for="endDate" style="z-index:1;position: relative;color:black;left: 30px;top:10px">End Date:</label>
+<input type="date" id="endDate" [(ngModel)]="endDate" style="position:relative;left:40px;top:10px">
+
+<button (click)="filterData()" style="position:relative;left:50px;top:10px"><i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
+</div>
+
+<div><a  class="btn bg-dark patient-link" routerLink="addPatient" style="position:relative;left:880px;top:140px; width: 120px; height: 45px;">Add</a></div>
+    <div *ngIf="records && records.length>0">
+      <div class="tablediv" >
+        <h2 style="color: white;text-align: center;position:relative;max-width: 700px; top:0px; right: 70px;" >Billing Details</h2>
+      <table border="2" class="table" style="position:relative;right:120px;background-color: white;color: black;width:1150px ; top: 60px;">
+        <tr>
+            <th>S.No</th>
+            <th>Billing Date</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>BedNo</th>
+            <th>Paid Amount</th> 
+            <!-- <th>Discount</th> -->
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th colspan="2">Actions</th>
+        </tr>
+        
+        <tr *ngFor="let c of records">
+          <td>{{c.billId}}</td>
+         <td>{{c.billingDate|date:"dd-MM-yyyy"}}</td> 
+         <td>{{c.firstName}}</td>
+         <td>{{c.lastName}}</td>  
+        <td>{{c.bedAllocationId}}</td> 
+        <td>{{c.paidAmount}}</td>
+        <!-- <td>{{c.discount}}</td> -->
+        <td>{{c.totalAmount}}</td>
+        <td>{{c.paymentStatus}}</td>
+        <!-- <td><a class="btn btn-lg " routerLink="edit/{{c.billId}}"><i class="fa-regular fa-pen-to-square" ></i></a></td> -->
+        <button class="btn btn-lg" (click)="delete(c)"><i class="fa-solid fa-trash-can" style="color:red;"></i></button>
+        <!-- <td><a href="">Delete</a></td>  -->
+
+        </tr> 
+      </table>
+    </div>
+<div class="pagination" style="position:relative;top:130px; right: 70px;">
+  <button [disabled]="isPreviousButtonDisabled()" (click)="onPageChange(currentPage -1)" style="z-index: 1;">Previous</button>
+  <button [disabled]="isNextButtonDisabled()" (click)="onPageChange(currentPage +1)" style="z-index: 1;">Next</button>
+</div>
+

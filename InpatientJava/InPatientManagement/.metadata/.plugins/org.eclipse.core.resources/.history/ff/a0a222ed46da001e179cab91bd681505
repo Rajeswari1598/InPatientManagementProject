@@ -1,0 +1,7 @@
+package com.admin.exception;
+
+public class WardCapacityExceededException extends RuntimeException{
+	
+	
+
+}

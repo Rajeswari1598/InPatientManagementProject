@@ -1,0 +1,9 @@
+<div class="container-fluid">
+    <div class="d-flex  flex-wrap">
+        <div *ngFor="let c of catego " class="image">
+            <a routerLink="details">
+                <img [src]="c.image" width="50" height="50">
+            </a>
+        </div>
+    </div>
+</div>

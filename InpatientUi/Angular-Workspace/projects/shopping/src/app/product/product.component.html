@@ -1,0 +1,22 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <nav >
+                <app-product-filter [eleCount]="electronicscount" [jewCount]="jewellerycount" [menCount]="mensclothingcount"
+                 [womCount]="womensclothingcount"  (productfilterEvent)="sendData($event)"></app-product-filter>
+            </nav>
+        </div>
+        <div class="col-9">
+            <main>
+                <div class="d-flex flex-wrap overflow-auto" style="height:500px ;">
+                <div *ngFor='let pro of product' class="card m-2 p-3 " style="width:200px;height: 300px;">
+                    <img [src]="pro.image" alt="" class="card-img-top">
+                    <div class="card-header">
+                        <p>{{pro.title}}</p>
+                    </div>
+                </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>

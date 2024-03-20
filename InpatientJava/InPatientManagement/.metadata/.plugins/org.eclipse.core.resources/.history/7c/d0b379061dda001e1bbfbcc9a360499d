@@ -1,0 +1,85 @@
+package com.admin.serviceimpltest;
+
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.admin.bean.RoomTypeBean;
+import com.admin.entity.RoomType;
+import com.admin.exception.RecordNotFoundException;
+import com.admin.repository.RoomTypeRepository;
+import com.admin.service.implementation.RoomTypeServiceImpl;
+
+@SpringBootTest
+public class RoomTypeServiceImplTest {
+
+    @Mock
+    private RoomTypeRepository roomTypeRepository;
+
+    @InjectMocks
+    private RoomTypeServiceImpl roomTypeService;
+
+    @Test
+    public void testSaveRoomType() {
+        RoomTypeBean roomTypeBean = new RoomTypeBean();
+        roomTypeBean.setName("Test Room Type");
+
+        RoomType roomType = new RoomType();
+        roomType.setName("Test Room Type");
+
+        when(roomTypeRepository.save(any())).thenReturn(roomType);
+
+        RoomTypeBean savedRoomType = roomTypeService.save(roomTypeBean);
+
+        Assertions.assertEquals(roomTypeBean.getName(), savedRoomType.getName());
+    }
+
+    @Test
+    public void testGetAllRoomTypes() {
+        List<RoomType> roomTypes = new ArrayList<>();
+        RoomType roomType1 = new RoomType();
+        roomType1.setId(1L);
+        roomType1.setName("Room Type 1");
+        roomTypes.add(roomType1);
+
+        RoomType roomType2 = new RoomType();
+        roomType2.setId(2L);
+        roomType2.setName("Room Type 2");
+        roomTypes.add(roomType2);
+
+        when(roomTypeRepository.findAll()).thenReturn(roomTypes);
+
+        List<RoomTypeBean> roomTypeBeans = roomTypeService.getAll();
+
+        Assertions.assertEquals(2, roomTypeBeans.size());
+    }
+
+    @Test
+    public void testGetRoomTypeById() {
+        RoomType roomType = new RoomType();
+        roomType.setId(1L);
+        roomType.setName("Test Room Type");
+
+        when(roomTypeRepository.findById(1L)).thenReturn(Optional.of(roomType));
+
+        RoomTypeBean roomTypeBean = roomTypeService.getById(1L);
+
+        Assertions.assertNotNull(roomTypeBean);
+        Assertions.assertEquals(roomType.getName(), roomTypeBean.getName());
+    }
+
+    @Test
+    public void testDeleteRoomType() {
+        roomTypeService.delete(1L);
+
+        verify(roomTypeRepository, times(1)).deleteById(1L);
+    }
+}

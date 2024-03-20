@@ -1,0 +1,42 @@
+<section>
+<div><a  class="btn btn-dark" routerLink="addroom" style="position:relative;left:830px;top:120px;width:120px;border-radius: 10px; height: 45px; text-align: center;">Add</a></div>
+    <form [formGroup]="roomFormtype" >
+      <div class="tablediv">
+        <h2 style="color: white;text-align: center;position:relative;max-width: 700px; top: 50px; left: 150px;" >Rooms</h2>
+      <table border="2px" class="table" style="position:relative;width:960px ;top: 30px; border-collapse: collapse;box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.717);">
+        <tr>  
+    <!-- border-collapse: collapse; -->
+            <!-- <th scope="col">S.No</th> -->
+            <th scope="col">Room No</th>
+            <th scope="col">Room Sharing</th>
+            <th scope="col">Room Pricing</th>
+            <th scope="col">Room Type</th>
+            <th scope="col">Ward</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Status</th>
+            <th colspan="2" scope="col">Actions</th>
+        </tr>
+        <tr *ngFor="let c of combinedDetails;index as i">
+          <!-- <th scope="row">{{i+1}}</th> -->
+           <!-- <td>{{c.id}}</td>  -->
+         <td>{{c.roomNo}}</td> 
+         <td>{{c.roomSharing}}</td>
+         <td>{{c.roomPrice}}</td>
+         <td>{{c.roomTypeId.name}}</td> 
+         <td>{{c.wardId.name}}-{{c.wardId.departmentId.name}}</td> 
+         <td>{{c.availability}}</td>
+         <td>{{c.status}}</td>
+        <td class="pen">
+          <a class="btn btn-lg" routerLink="editRoom/{{c.id}}"><i class="fa-regular fa-pen-to-square" ></i></a>
+          <button class="btn btn-lg" (click)="delete(c)"><i class="fa-solid fa-trash-can" style="color:red;"></i></button>
+          <!-- <a class="btn btn-lg"  ><i class="fa-solid fa-trash-can" style="color:red;"></i></a> -->
+        </td>
+        </tr> 
+      </table>
+      </div>
+    </form>
+    <div class="pagination">
+      <button [disabled]="isPreviousButtonDisabled()" (click)="onPageChange(currentPage -1)"  style="z-index:1; ;">Previous</button>
+      <button [disabled]="isNextButtonDisabled()" (click)="onPageChange(currentPage +1)"  style="z-index:1;">Next</button>
+    </div>
+</section>

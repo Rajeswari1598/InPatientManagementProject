@@ -1,0 +1,170 @@
+package com.patient.serviceImplementation;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.patient.bean.DoctorBean;
+import com.patient.bean.PatientBean;
+import com.patient.entity.DoctorEntity;
+import com.patient.entity.PatientEntity;
+import com.patient.exception.PatientIdNotFoundException;
+import com.patient.repository.PatientRepository;
+import com.patient.service.PatientService;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Service
+public class PatientServiceImplementation implements PatientService {
+	@Autowired
+	private PatientRepository patientRepository;
+    ObjectMapper objectMapper=new ObjectMapper();
+	@PersistenceContext
+	private EntityManager entityManager;
+	private int currentYear;
+	private int currentMonth;
+	private int currentNumber;
+	private static Logger log = LoggerFactory.getLogger(PatientServiceImplementation.class.getSimpleName());
+
+	@Override
+	public void save(PatientBean patientBean) {
+		
+		log.info("saving the patient details");
+
+		PatientEntity patientEntity = new PatientEntity();
+		BeanToEntity(patientEntity, patientBean);
+
+		String patientNumber = generatePatientNo();
+		PatientEntity patient = new PatientEntity();
+		patient.setPatientNumber(patientNumber);
+		patientRepository.save(patientEntity);
+		log.info("saved the patient details sucessfully");
+
+	}
+
+	@Override
+	public List<PatientBean> getAll() {
+		log.info("getting the patient details");
+		List<PatientBean> patientBean = new ArrayList<>();
+		// List<PatientEntity> patientEntity=new ArrayList<>();
+		List<PatientEntity> patientEntity = patientRepository.findAll();
+		entityToBean(patientEntity, patientBean);
+		log.info("get the patient details sucessfully");
+		return patientBean;
+	}
+
+	@Override
+	public Optional<PatientEntity> getPatientById(Integer id) {
+
+		PatientBean patientBean = new PatientBean();
+		log.info("get the patient details by using id");
+		Optional<PatientEntity> patientEntity = patientRepository.findById(id);
+		// entityToBean(patientEntity, patientBean);
+		// int billingId=patientEntity.get().getBillId();
+		boolean patientId = patientRepository.existsById(id);
+		if (patientId != true) {
+			log.error("patient Id not found");
+			throw new PatientIdNotFoundException("Patient Id not found");
+			
+		} else {
+			log.info("get the patient details based on id");
+			return patientEntity;
+
+		}
+
+	}
+
+	public void BeanToEntity(PatientEntity patientEntity, PatientBean patientBean) {
+		patientEntity = objectMapper.convertValue(patientBean, PatientEntity.class);
+	}
+
+	public void entityToBean(List<PatientEntity> patientEntityList, List<PatientBean> patientBeanList) {
+
+		for (PatientEntity patientEntity : patientEntityList) {
+			PatientBean patientBean = new PatientBean();
+			patientBean = objectMapper.convertValue(patientEntity, PatientBean.class);
+			patientBeanList.add(patientBean);
+
+		}
+	}
+
+	private void entityToBean(DoctorEntity doctorEntity, DoctorBean doctorBean) {
+		// TODO Auto-generated method stub
+		doctorBean.setDepartmentId(doctorEntity.getDepartmentId());
+		doctorBean.setId(doctorEntity.getId());
+		doctorBean.setName(doctorEntity.getName());
+	}
+
+	public void entityToBean(PatientEntity patientEntity, PatientBean patientBean) {
+
+		patientBean = objectMapper.convertValue(patientEntity, PatientBean.class);
+
+	}
+
+	public List<Object[]> getPatientDetailsByDoctor(String doctorName) {
+
+		String sqlQuery = "SELECT p.first_name, p.last_name, bed.bed_no, room.room_no, "
+				+ "ward.ward_name, department.department_name " + "FROM patientregistration p "
+				+ "JOIN bed_allocation ba ON p.patient_id = ba.patient_id " + "JOIN bed ON ba.bed_id = bed.bed_id "
+				+ "JOIN room ON bed.room_id = room.room_id " + "JOIN ward ON room.ward_id = ward.ward_id "
+				+ "JOIN department ON ward.department_id = department.dept_id "
+				+ "JOIN doctor d ON p.doctor = d.doctor_id " + "WHERE d.doctor_name = :doctorName "
+				+ "AND CURRENT_DATE BETWEEN ba.start_date AND ba.end_date";
+		List<Object[]> resultList = entityManager.createNativeQuery(sqlQuery).setParameter("doctorName", doctorName)
+				.getResultList();
+
+		return resultList;
+	}
+
+	public List<Object[]> getPatientDetailsByFullName(String fullName) {
+		String nativeQuery = "SELECT p.first_name, p.last_name, bed.bed_no, room.room_no, "
+				+ "ward.ward_name, department.department_name " + "FROM patientregistration p "
+				+ "JOIN bed_allocation ba ON p.patient_id = ba.patient_id " + "JOIN bed ON ba.bed_id = bed.bed_id "
+				+ "JOIN room ON bed.room_id = room.room_id " + "JOIN ward ON room.ward_id = ward.ward_id "
+				+ "JOIN department ON ward.department_id = department.dept_id "
+				+ "WHERE CONCAT(p.first_name, p.last_name) = :fullName";
+
+		List<Object[]> resultList = entityManager.createNativeQuery(nativeQuery).setParameter("fullName", fullName)
+				.getResultList();
+		log.info("get the patient name");
+		return resultList;
+	}
+
+	@Override
+	public void updateStatus(PatientEntity patient) {
+		log.info("Update the patient status");
+		patient.setStatus("InActive");
+		patientRepository.save(patient);
+
+	}
+
+	@Override
+	public String generatePatientNo() {
+		log.info("patient number is generating");
+		int year = java.time.Year.now().getValue();
+		int month = java.time.MonthDay.now().getMonthValue();
+
+		if (year != currentYear || month != currentMonth) {
+			currentYear = year;
+			currentMonth = month;
+			currentNumber = 1;
+		} else {
+
+			currentNumber++;
+		}
+
+		String patientNumber = String.format("IN-%02d-%02d-%04d", currentYear % 100, currentMonth, currentNumber);
+
+		log.info("patient number is generated sucessfully");
+		return patientNumber;
+
+	}
+
+}

@@ -1,0 +1,14 @@
+package com.admin.exception;
+
+public class RoomTypeDetailsNotFoundException extends RuntimeException
+{
+	public RoomTypeDetailsNotFoundException()
+	{
+		super();
+	}
+	public RoomTypeDetailsNotFoundException(String message)
+	{
+		super(message);
+	}
+
+}

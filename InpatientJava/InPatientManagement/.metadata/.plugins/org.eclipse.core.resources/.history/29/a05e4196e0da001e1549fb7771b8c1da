@@ -1,0 +1,16 @@
+package com.patient.exception;
+
+public class DoctorIdNotFoundException extends RuntimeException{
+
+	public DoctorIdNotFoundException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DoctorIdNotFoundException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	
+}

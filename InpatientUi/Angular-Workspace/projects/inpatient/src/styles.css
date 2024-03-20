@@ -1,0 +1,16 @@
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../../../node_modules/bootstrap-icons/font/bootstrap-icons.css';
+@import'../../../node_modules/@fortawesome/fontawesome-free/css/all.css';
+/* Import Arial font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Arial&display=swap');
+
+/* Import SweetAlert2 styles */
+@import '../../../node_modules/sweetalert2/src/sweetalert2.scss';
+
+/* Define body styles */
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

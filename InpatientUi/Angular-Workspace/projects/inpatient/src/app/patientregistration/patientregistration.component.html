@@ -1,0 +1,113 @@
+<section style="position:relative;height:0px;">
+  <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+          <div class="col-12 col-lg-9 col-xl-7" style="margin-right:15%;height: 650px ;">
+              <div class="card shadow-2-strong card-registration" style="border-radius: 15px;margin-bottom:15%;">
+                  <div class="card-body p-4 p-md-5" style="height:600px;">
+                      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5" style="position: relative;margin-left:17%;">Patient Registration Form</h3>
+                      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+                          <div class="row">
+                              <div class="col-md-6 mb-4">
+                                  <div class="form-outline">
+                                      <label class="form-label" for="firstName">First Name</label>
+                                      <input type="text" id="firstName" class="form-control" formControlName="firstName" placeholder="Enter FirstName">
+                                      <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched" class="text-danger">
+                                          First Name is required.
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mb-4">
+                                  <div class="form-outline">
+                                      <label class="form-label" for="lastName">Last Name</label>
+                                      <input type="text" id="lastName" class="form-control" formControlName="lastName" placeholder="Enter LastName">
+                                      <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched" class="text-danger">
+                                          Last Name is required.
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6 mb-4 d-flex align-items-center">
+                                  <div class="form-outline datepicker w-100">
+                                      <label for="age" class="form-label">PatientAge</label>
+                                      <input type="text" class="form-control" id="age" formControlName="patientAge" placeholder="Enter PatientAge">
+                                      <div *ngIf="registrationForm.get('age')?.invalid && registrationForm.get('age')?.touched" class="text-danger">
+                                          Age is required.
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mb-4">
+                                  <h6 class="mb-2 pb-1">patientGender</h6>
+                                  <div class="form-check form-check-inline">
+                                      <label class="form-check-label" for="femaleGender">Female</label>
+                                      <input class="form-check-input" type="radio" name="patientGender" id="femaleGender" value="female" formControlName="patientGender">
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                      <label class="form-check-label" for="maleGender">Male</label>
+                                      <input class="form-check-input" type="radio" name="patientGender" id="maleGender" value="male" formControlName="patientGender">
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                      <label class="form-check-label" for="otherGender">Other</label>
+                                      <input class="form-check-input" type="radio" name="patientGender" id="otherGender" value="other" formControlName="patientGender">
+                                  </div>
+                                  <div *ngIf="registrationForm.get('gender')?.invalid && registrationForm.get('gender')?.touched" class="text-danger">
+                                      Gender is required.
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6 mb-4 pb-2">
+                                  <div class="form-outline">
+                                      <label class="form-label" for="patientContactNo">Contact Number</label>
+                                      <input type="text" id="patientContactNo" class="form-control" formControlName="patientContactNo" placeholder="Enter ContactNumber">
+                                      <div *ngIf="registrationForm.get('patientContactNo')?.invalid && registrationForm.get('patientContactNo')?.touched" class="text-danger">
+                                          Contact Number is required.
+                                      </div>
+                                      <div *ngIf="registrationForm.get('patientContactNo')?.errors?.['pattern']" class="text-danger">
+                                        Invalid phone number
+                                      </div>
+                                      <!-- <div *ngIf="registrationForm.get('patientContactNo')?.errors?.['required']" class="text-danger">
+                                        PhoneNumber shou1d contain 10 digits.
+                                      </div> -->
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mb-4 pb-2">
+                                  <div class="form-outline">
+                                      <label class="form-label" for="patientAlternteContactNo">Alternate Contact Number</label>
+                                      <input type="text" id="patientAlternteContactNo" class="form-control" formControlName="patientAlternteContactNo" placeholder="AlternateContactNumber">
+                                      <div *ngIf="registrationForm.get('patientAlternteContactNo')?.invalid && registrationForm.get('patientAlternteContactNo')?.touched" class="text-danger">
+                                       Alternate Contact Number is required.
+                                    </div>
+                                      <div *ngIf="registrationForm.get('patientAlternteContactNo')?.errors?.['pattern']" class="text-danger">
+                                        Invalid phone number
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6 mb-4 pb-2">
+                                  <div class="form-outline">
+                                      <label class="form-label" >Doctor Name</label>
+                                      <select class="form-select" formControlName="doctorBean" style="background-color:aliceblue;">
+                                          <option *ngFor="let d of doctors" [ngValue]="d">{{ d.name }}</option>
+                                      </select>
+                                      <div *ngIf="registrationForm.get('doctorBean')?.invalid && registrationForm.get('doctorBean')?.touched" class="text-danger">
+                                          Please select a doctor.
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="mt-4 pt-2">
+                              <button type="submit" class="btn btn-dark btn-lg" style="margin-left:35%;position: relative;bottom:30px;width: 120px;height: 45px;">Submit</button>
+                          </div>
+                          <div *ngIf="patientNumber" style="z-index:1;position: relative;color:white;align-items: center;">
+                            <p>Patient Number:{{patientNumber}}</p>
+                          </div>
+                      </form>
+                     
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

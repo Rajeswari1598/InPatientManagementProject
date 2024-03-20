@@ -1,0 +1,44 @@
+<div class="tablediv">
+  <h2 style="color: white;text-align: center;position:relative;max-width: 700px; top: 60px; left: 100px;" >Enquiry</h2>
+<div class="row">
+    <div class="col-3"></div>
+    <div style="background-color: white;width: 480px; height: 60px; z-index: 1; border-radius: 10px;position: relative; top: 135px; right: 270px;">
+    <div class="col-9" style="z-index: 1;position: relative; top: 15px; left: 20px; ">
+       <label for="">Enter PatientName:</label>&nbsp;
+       <input type="text" [(ngModel)]="name" style="position:relative ; border-radius: 5px;">
+</div>
+</div>
+<div class="row">
+    <!-- <div class="col-3"></div> -->
+    <div class="col-9">
+      <div class="row mb-3">
+        <div class="col d-flex justify-content-end">
+          <button class="btn btn-lg" (click)="getDetails()" style="position: relative; z-index: 1;top: 85px; right: 350px;"><i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
+        </div>
+      </div>
+  </div>
+      <table class="table table-bordered" style="position: relative; z-index:1  ; top: 100px;">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Bed No</th>
+            <th>Room No</th>
+            <th>Ward Name</th>
+            <th>Department Name</th>
+          </tr>
+        </thead>
+         <tbody>
+            <tr *ngFor="let patient of patientDetails">
+                <td>{{ patient[0] }}</td> 
+                <td>{{ patient[1] }}</td> 
+                <td>{{ patient[2] }}</td> 
+                <td>{{ patient[3] }}</td> 
+                <td>{{ patient[4] }}</td> 
+                <td>{{ patient[5] }}</td> 
+              </tr>
+         </tbody>
+         </table>
+  </div>
+ </div>
+  </div>

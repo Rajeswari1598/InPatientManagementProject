@@ -1,0 +1,5 @@
+package com.patient.billing.service.exception;
+
+public class BedAllocationNotFoundException {
+
+}

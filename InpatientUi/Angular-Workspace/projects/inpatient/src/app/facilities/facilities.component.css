@@ -1,0 +1,46 @@
+.facility {
+    position: absolute;
+ /* Adjust as needed */
+    left:0px; /* Adjust as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 700px;
+    width: 300px;
+    background-color: teal;
+    color: white;
+    z-index: 1000; /* Adjust as needed */
+    padding:20px; /* Add padding for spacing */
+    top:80px;
+}
+
+.facility a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 25px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+ul li a {
+    position: relative;
+    top: 5px;
+}
+h2{
+    position: relative;
+    padding-top:15%;
+}
+#list li a{
+    position: relative;
+    right:30px;
+}
+/* .nav a.active {
+    /* Add your styles for the active tab here
+    background-color: rgba(128, 128, 128, 0.614); /* Example background color 
+    color: #fff;  Example text color 
+  } */
+  

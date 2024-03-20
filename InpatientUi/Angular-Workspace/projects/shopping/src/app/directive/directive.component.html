@@ -1,0 +1,43 @@
+<!-- ngIf -->
+
+<!-- <div>
+    <dt>Name</dt>
+    <input type="text" required name="ProductName" ngModel #ProductName="ngModel">
+    <div *ngIf="ProductName.invalid">
+        <span class="text-danger">Name Required Please enter the name</span>
+    </div>
+</div> -->
+
+<!-- ngIf with Else -->
+
+<!-- <div>
+    <dt>Name</dt>
+    <input type="text" required name="ProductName" ngModel #ProductName="ngModel">
+<div *ngIf="ProductName.invalid ;else elseBlock">Name is required plese enter the name</div>
+<ng-template #elseBlock>ThankYou</ng-template>
+</div> -->
+
+<!-- ngIf with then and else block -->
+
+<!-- <div>
+    <dt>Name</dt>
+    <input type="text" required name="ProductName" ngModel #ProductName="ngModel">
+<div *ngIf="ProductName.invalid then thenBlock ;else elseBlock"></div>
+<ng-template #thenBlock>enter name</ng-template>
+    <ng-template #elseBlock>ThankYou</ng-template>
+</div> -->
+
+<!-- ngFor -->
+
+    <!-- <ul *ngFor="let n of number">
+        <li>{{n}}</li>
+    </ul> -->
+
+    <!-- ngSwitch -->
+    <input type="text" [(ngModel)]="option">
+    <div [ngSwitch]="option">
+        <div *ngSwitchCase=" 'add' ">{{num1+num2}}</div>
+        <div *ngSwitchCase=" 'sub' ">{{num1-num2}}</div>
+        <div *ngSwitchCase=" 'mul' ">{{num1*num2}}</div>
+        <div *ngSwitchCase=" '' ">{{num1/num2}}</div>
+    </div>

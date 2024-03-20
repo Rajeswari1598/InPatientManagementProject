@@ -1,0 +1,16 @@
+package com.admin.exception;
+
+public class RoomAvailabilityException extends RuntimeException{
+
+	public RoomAvailabilityException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public RoomAvailabilityException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	
+}

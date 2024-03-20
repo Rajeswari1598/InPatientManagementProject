@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="heading">
+        <p>
+          Room Details
+        </p>
+    </div>
+    <form [formGroup]="addRoomForm" (submit)="submit()">
+        <label for="roomNo"><b>Room No</b></label>
+        <input type="number" formControlName="roomNo" placeholder="Enter roomNo">
+        <label for="roomSharing"><b>Room Sharing</b></label>
+        <input type="number" formControlName="roomSharing" placeholder="Enter roomSharing">
+        <label for="roomPrice"><b>Room Pricing</b></label>
+        <input type="number" formControlName="roomPrice" placeholder="Enter roomPrice">
+        <label for="roomTypeId"><b>Room Type</b></label>
+        <select id="roomTypeId" formControlName="roomTypeId" style="position:relative;width:340px;height:40px;border-radius:10px;background-color: aliceblue;">
+          <option *ngFor="let room of rooms" [value]="room.id">{{room.name}}</option>
+         </select>
+         <label for="wardId"><b>Ward</b></label>
+         <select id="wardId" formControlName="wardId" style="position:relative;width:340px;height:40px;border-radius:10px;background-color: aliceblue;">
+           <option *ngFor="let ward of wards" [value]="ward.id">{{ward.name}} -{{ward.departmentId.name}}</option>
+          </select>
+        <button type="submit" [disabled]="addRoomForm.invalid">Submit</button>
+        <!-- <button style="position:relative;bottom: 50px;">Back</button> -->
+    </form>
+
+</div>
+

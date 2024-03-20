@@ -1,0 +1,149 @@
+package com.admin.service.implementation;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.admin.bean.WardBean;
+import com.admin.constants.CommonConstants;
+import com.admin.entity.Department;
+import com.admin.entity.Ward;
+import com.admin.exception.DepartmentNotFoundException;
+import com.admin.exception.RecordNotFoundException;
+import com.admin.exception.WardAlreadyExistsException;
+import com.admin.repository.WardRepository;
+import com.admin.service.WardService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Service
+public class WardServiceImpl implements WardService {
+	@Autowired
+	private WardRepository wardRepository;
+	@Autowired
+	private ObjectMapper objectMapper;
+	private static Logger log = LoggerFactory.getLogger(BedAllocationServiceImpl.class.getSimpleName());
+
+	@Override
+	public WardBean saveWard(WardBean wardBean) {
+		log.info("saving the wards");
+
+		Ward wardEntity = wardRepository.getByNameAndDepartmentId_Name(wardBean.getName(),
+				wardBean.getDepartmentId().getName());
+		if (wardEntity == null) {
+			Ward ward = objectMapper.convertValue(wardBean, Ward.class);
+			wardBean.setStatus(CommonConstants.ACTIVE);
+			wardBean.setAvailability(wardBean.getCapacity());
+			wardRepository.save(ward);
+			log.info("saving the wards sucessfully");
+		} else {
+			log.info("ward is akready exists");
+			throw new WardAlreadyExistsException("That ward already exists");
+		}
+		return wardBean;
+
+	}
+
+	public WardBean getByWardId(Long id) {
+		log.info("getting the ward by id");
+		Ward ward = wardRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException("No Record Found with given id"));
+		WardBean wardBean = objectMapper.convertValue(ward, WardBean.class);
+		log.info("getting the ward by id is done");
+		return wardBean;
+
+	}
+
+	@Override
+	public void delete(Long id) {
+		try {
+			log.info("deleting the wards");
+			wardRepository.deleteById(id);
+		} catch (Exception exception) {
+			log.error("error deleting ward with id: " + id, exception);
+			throw exception;
+		}
+
+	}
+
+	@Override
+	public List<WardBean> getAllWards() {
+		try {
+			log.info(" getting all the wards");
+			List<Ward> entityList = wardRepository.findAll();
+			List<WardBean> beanList = new ArrayList<>();
+			entityToBean(entityList, beanList);
+			log.info(" getting all the wards successfully");
+			return beanList;
+		} catch (Exception exception) {
+			log.info(" error  fetching all wards", exception);
+			throw exception;
+		}
+	}
+
+	private void entityToBean(List<Ward> entityList, List<WardBean> beanList) {
+		for (Ward ward : entityList) {
+			WardBean wardBean = objectMapper.convertValue(ward, WardBean.class);
+			beanList.add(wardBean);
+		}
+
+	}
+
+	@Override
+	public void updateWard(WardBean wardBean) {
+		try {
+			log.info("update  the ward by id");
+			Optional<Ward> optional = wardRepository.findById(wardBean.getId());
+			if (optional.isPresent()) {
+				Ward ward = optional.get();
+				ward.setId(wardBean.getId());
+				ward.setName(wardBean.getName());
+				ward.setCapacity(wardBean.getCapacity());
+				ward.setAvailability(wardBean.getAvailability());
+				ward.setStatus(wardBean.getStatus());
+				Department Department = ward.getDepartmentId();
+
+				ward.setDepartmentId(Department);
+				wardRepository.save(ward);
+				log.info("update the ward by id is done");
+
+			} else {
+				log.info("record is not found with this id");
+				throw new RecordNotFoundException("not found in details");
+			}
+
+		} catch (Exception exception) {
+			log.info("error while updating ward status", exception);
+			throw exception;
+		}
+
+	}
+
+	@Override
+	public List<Ward> findByDepartmentId(Long departmentId) {
+
+		if (departmentId != null) {
+			log.info("Fetchind wards by deparment id");
+			return wardRepository.findByDepartmentId_Id(departmentId);
+		} else {
+			log.info("department  id not found");
+			throw new DepartmentNotFoundException("departmentId not found");
+		}
+	}
+
+	@Override
+	public void updateStatus(Ward ward) {
+		log.info("updating the ward status");
+		if (ward.getStatus().equalsIgnoreCase(CommonConstants.ACTIVE)) {
+			ward.setStatus(CommonConstants.INACTIVE);
+		} else {
+			ward.setStatus(CommonConstants.ACTIVE);
+		}
+		wardRepository.save(ward);
+
+	}
+
+}

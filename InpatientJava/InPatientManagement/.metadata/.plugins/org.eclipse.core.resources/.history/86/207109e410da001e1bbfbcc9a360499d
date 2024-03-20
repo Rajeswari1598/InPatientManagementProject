@@ -1,0 +1,178 @@
+package com.admin.service.implimentation;
+
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.admin.bean.DepartmentBean;
+import com.admin.bean.WardBean;
+import com.admin.entity.Department;
+import com.admin.entity.Ward;
+import com.admin.exception.RecordNotFoundException;
+import com.admin.repository.WardRepository;
+import com.admin.service.implementation.WardServiceImpl;
+
+@SpringBootTest
+public class WardServiceImplTest {
+
+    @Mock
+    private WardRepository wardRepository;
+
+    @InjectMocks
+    private WardServiceImpl wardService;
+
+    @Test
+    public void testSaveWard() {
+        WardBean wardBean = new WardBean();
+        wardBean.setName("Test Ward");
+
+        DepartmentBean departmentBean = new DepartmentBean();
+        departmentBean.setId(1L);
+        departmentBean.setName("Test Department");
+
+        wardBean.setDepartmentId(departmentBean);
+
+        Ward ward = new Ward();
+        ward.setId(1L);
+        ward.setName("Test Ward");
+
+        when(wardRepository.getByNameAndDepartmentId_Name("Test Ward", "Test Department")).thenReturn(null);
+        when(wardRepository.save(any())).thenReturn(ward);
+
+        WardBean savedWard = wardService.save(wardBean);
+
+        Assertions.assertEquals(wardBean.getName(), savedWard.getName());
+    }
+
+
+    
+    @Test
+    public void testGetWardById() {
+        Ward ward = new Ward();
+        ward.setId(1L);
+        ward.setName("Test Ward");
+        
+        // Mocking Department object
+        Department department = new Department();
+        department.setId(1L);
+        department.setName("Test Department");
+        ward.setDepartmentId(department);
+
+        when(wardRepository.findById(1L)).thenReturn(Optional.of(ward));
+
+        WardBean wardBean = wardService.getById(1L);
+
+        Assertions.assertNotNull(wardBean);
+        Assertions.assertEquals(ward.getName(), wardBean.getName());
+        Assertions.assertEquals(ward.getDepartmentId().getName(), wardBean.getDepartmentId().getName());
+    }
+
+
+    @Test
+    public void testGetAllWards() {
+        List<Ward> wards = new ArrayList<>();
+        Ward ward1 = new Ward();
+        ward1.setId(1L);
+        ward1.setName("Ward 1");
+        ward1.setCapacity(10);
+        ward1.setAvailability(5);
+        ward1.setStatus("Active");
+
+        Department department1 = new Department();
+        department1.setId(1L);
+        department1.setName("Department 1");
+        department1.setStatus("Active");
+        ward1.setDepartmentId(department1);
+
+        Ward ward2 = new Ward();
+        ward2.setId(2L);
+        ward2.setName("Ward 2");
+        ward2.setCapacity(15);
+        ward2.setAvailability(10);
+        ward2.setStatus("Active");
+
+        Department department2 = new Department();
+        department2.setId(2L);
+        department2.setName("Department 2");
+        department2.setStatus("Active");
+        ward2.setDepartmentId(department2);
+
+        wards.add(ward1);
+        wards.add(ward2);
+
+        when(wardRepository.findAll()).thenReturn(wards);
+
+        List<WardBean> wardBeans = wardService.getAll();
+
+        Assertions.assertEquals(2, wardBeans.size());
+
+        WardBean wardBean1 = wardBeans.get(0);
+        Assertions.assertEquals(ward1.getId(), wardBean1.getId());
+        Assertions.assertEquals(ward1.getName(), wardBean1.getName());
+        Assertions.assertEquals(ward1.getCapacity(), wardBean1.getCapacity());
+        Assertions.assertEquals(ward1.getAvailability(), wardBean1.getAvailability());
+        Assertions.assertEquals(ward1.getStatus(), wardBean1.getStatus());
+
+        DepartmentBean departmentBean1 = wardBean1.getDepartmentId();
+        Assertions.assertEquals(department1.getId(), departmentBean1.getId());
+        Assertions.assertEquals(department1.getName(), departmentBean1.getName());
+        Assertions.assertEquals(department1.getStatus(), departmentBean1.getStatus());
+
+        WardBean wardBean2 = wardBeans.get(1);
+        Assertions.assertEquals(ward2.getId(), wardBean2.getId());
+        Assertions.assertEquals(ward2.getName(), wardBean2.getName());
+        Assertions.assertEquals(ward2.getCapacity(), wardBean2.getCapacity());
+        Assertions.assertEquals(ward2.getAvailability(), wardBean2.getAvailability());
+        Assertions.assertEquals(ward2.getStatus(), wardBean2.getStatus());
+
+        DepartmentBean departmentBean2 = wardBean2.getDepartmentId();
+        Assertions.assertEquals(department2.getId(), departmentBean2.getId());
+        Assertions.assertEquals(department2.getName(), departmentBean2.getName());
+        Assertions.assertEquals(department2.getStatus(), departmentBean2.getStatus());
+    }
+
+
+    @Test
+    public void testDeleteWard() {
+        wardService.delete(1L);
+
+        verify(wardRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void testUpdateWard() {
+        WardBean wardBean = new WardBean();
+        wardBean.setId(1L);
+        wardBean.setName("Updated Ward");
+
+        Ward ward = new Ward();
+        ward.setId(1L);
+        ward.setName("Test Ward");
+
+        when(wardRepository.findById(1L)).thenReturn(Optional.of(ward));
+        when(wardRepository.save(any())).thenReturn(ward);
+
+        wardService.update(wardBean);
+
+        Assertions.assertEquals(wardBean.getName(), ward.getName());
+    }
+
+    @Test
+    public void testUpdateWardNotFound() {
+        WardBean wardBean = new WardBean();
+        wardBean.setId(1L);
+        wardBean.setName("Updated Ward");
+
+        when(wardRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(RecordNotFoundException.class, () -> wardService.update(wardBean));
+    }
+}

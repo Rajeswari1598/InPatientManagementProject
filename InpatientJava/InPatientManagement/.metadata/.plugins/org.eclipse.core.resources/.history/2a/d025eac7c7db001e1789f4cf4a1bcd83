@@ -1,0 +1,95 @@
+package com.admin.controller;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.admin.bean.RoomTypeBean;
+import com.admin.entity.RoomType;
+import com.admin.exception.RecordNotFoundException;
+import com.admin.exception.RoomTypeAlreadyExistsException;
+import com.admin.service.RoomTypeService;
+
+@Controller
+@RequestMapping("/roomType")
+@CrossOrigin(origins = "http://localhost:4200")
+public class RoomTypeController {
+	private static final Logger logger = LoggerFactory.getLogger(RoomController.class);
+	@Autowired
+	RoomTypeService roomTypeService;
+
+	@PostMapping(path = "/save")
+	public ResponseEntity<RoomTypeBean> save(@RequestBody RoomTypeBean roomTypeBean) {
+		try {
+		logger.info("Saving the roomtype details ");
+		roomTypeService.save(roomTypeBean);
+		ResponseEntity<RoomTypeBean> entity = new ResponseEntity<>(roomTypeBean, HttpStatus.CREATED);
+		logger.info("RoomType details saved successfully");
+		return entity;
+		}catch (RoomTypeAlreadyExistsException exception) {
+			logger.error("roomtype is already exists");
+			return new  ResponseEntity<>( HttpStatus.NOT_FOUND);
+		}
+
+	}
+
+	@GetMapping(path = "/getAll")
+	public ResponseEntity<List<RoomTypeBean>> getAll() {
+		try {
+		logger.info("Getting the roomtype details");
+		List<RoomTypeBean> list = roomTypeService.getAll();
+		logger.info("Get the roomType details successfully");
+		return new ResponseEntity<List<RoomTypeBean>>(list, HttpStatus.OK);
+		}
+		catch (RecordNotFoundException exception) {
+			logger.error("recods not found with this id");
+			return new ResponseEntity<List<RoomTypeBean>>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping(path = "/getById/{id}")
+	public ResponseEntity<RoomTypeBean> getById(@PathVariable Long id) {
+		logger.info("Getting the roomtype details by using id");
+		RoomTypeBean roombyid = roomTypeService.getById(id);
+		logger.info("get the roomtype details by using id successfully");
+		return new ResponseEntity<RoomTypeBean>(roombyid, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/deleteById/{id}")
+	public ResponseEntity<Void> deleteRoomType(@PathVariable long id) {
+		logger.info("deleting the roomtype by using id");
+		roomTypeService.delete(id);
+		logger.info("deleting the roomtype by using id is done");
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<Void> updateStatus(@RequestBody RoomTypeBean roomType) {
+		logger.info("Updating the roomtype details");
+		roomTypeService.update(roomType);
+		logger.info("updated the roomtype details sucessfully");
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping(path = "/status")
+	public ResponseEntity<Void> put(@RequestBody RoomType roomType) {
+		logger.info("Updating the status of roomtype");
+		roomTypeService.updateStatus(roomType);
+		logger.info("Updated the status of roomtype sucessfully ");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+}

@@ -1,0 +1,150 @@
+<section class="gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;top:100px;background-color:rgba(95, 158, 160, 0.696);height:640px;right:290px;bottom:75px;position: fixed;" id="reg">
+          <div class="card-body p-4 p-md-5">
+            <h3  class="fw-bold mb-2 text-uppercase" style="text-align: center;bottom: 10px;">Registration Form</h3>
+            <form [formGroup]="signupForm" (ngSubmit)="signup()">
+              <div class="row">
+                <div class="col-md-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="firstName" style="font-size:20px;">First Name</label>
+                    <input type="text" id="firstName" class="form-control form-control-lg" formControlName="firstName" placeholder="Enter FirstName"/>
+                    <div *ngIf="signupForm.get('firstName')?.invalid && (signupForm.get('firstName')?.dirty || signupForm.get('firstName')?.touched)">
+                      <div *ngIf="signupForm.get('firstName')?.errors?.['required']">
+                        First Name is required.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-md-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="lastName" style="font-size:20px;">Last Name</label>
+                    <input type="text" id="lastName" class="form-control form-control-lg" formControlName="lastName" placeholder="Enter LastName"/>
+                    <div *ngIf="signupForm.get('lastName')?.invalid && (signupForm.get('lastName')?.dirty || signupForm.get('lastName')?.touched)">
+                      <div *ngIf="signupForm.get('lastName')?.errors?.['required']">
+                        Last Name is required.
+                      </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                  <div class="form-outline datepicker w-100">
+                    <label for="dateOfBirth" class="form-label" style="font-size:20px;">DateOfBirth</label>
+                    <input type="date" class="form-control form-control-lg" id="dateOfBirth" formControlName="dateOfBirth" name="dateOfBirth" />
+                    <div *ngIf="signupForm.get('dateOfBirth')?.invalid && (signupForm.get('dateOfBirth')?.dirty || signupForm.get('dateOfBirth')?.touched)">
+                      <div *ngIf="signupForm.get('dateOfBirth')?.errors?.['required']">
+                        DateOfBirth is required.
+                      </div>
+                  </div>
+
+                </div>
+                </div>
+                <div class="col-md-6 mb-4">
+
+                  <p class="mb-2 pb-1" style="font-size:20px;">Gender</p>
+
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="femaleGender" style="font-size:20px;">Female</label>
+                    <input class="form-check-input" type="radio" name="gender" id="femaleGender"
+                      value="Female" che formControlName="gender" />
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="maleGender" style="font-size:20px;">Male</label>
+                    <input class="form-check-input" type="radio" name="gender" id="maleGender"
+                      value="Male" formControlName="gender"/>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="otherGender" style="font-size:20px;">Other</label>
+                    <input class="form-check-input" type="radio" name="gender" id="otherGender"
+                      value="other" formControlName="gender" />
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="phoneNumber" style="font-size:20px;">Phone Number</label>
+                    <input type="tel" id="phoneNumber" class="form-control form-control-lg" formControlName="phoneNumber" placeholder="Enter PhoneNumber"/>
+                    <div *ngIf="signupForm.get('phoneNumber')?.invalid && (signupForm.get('phoneNumber')?.dirty || signupForm.get('phoneNumber')?.touched)">
+                      <div *ngIf="signupForm.get('phoneNumber')?.errors?.['required']">
+                        PhoneNumber shoud contain 10 digits.
+                      </div>
+                      <div *ngIf="signupForm.get('phoneNumber')?.errors?.['pattern']">
+                        Please enter a valid phone number.
+                      </div>
+                    </div>
+                  
+                  </div>
+
+                </div>
+                <div class="col-md-6 mb-4 pb-2">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="emailAddress" style="font-size:20px;">Email</label>
+                    <input type="email" id="emailAddress" class="form-control form-control-lg" formControlName="email" placeholder="Enter Email" />
+                    <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-danger">
+                      <span *ngIf="signupForm.get('email')?.errors?.['required']">Email is required</span>
+                      <span *ngIf="signupForm.get('email')?.errors?.['email']">Invalid email format</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="Password" style="font-size:20px;">Password</label>
+                    <input type="text" id="Password" class="form-control form-control-lg" formControlName="password" placeholder="Enter Password"/>
+                    <div *ngIf="signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)">
+                      <div *ngIf="signupForm.get('password')?.errors?.['required']">
+                        password is required.
+                      </div>
+                      <div *ngIf="signupForm.get('password')?.errors?.['minlength']">
+                        Please enter 8 characters.
+                      </div>
+                      <div *ngIf="signupForm.get('password')?.errors?.['pattern']">
+                        Provid valid password.
+                      </div>
+                  </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4 pb-2" style="position:relative;top:35px;">
+                <div class="col-12">
+                  <label class="form-label select-label"></label>
+                  <select class="select form-control-lg" formControlName="serviceType" style="background-color:aliceblue;width:280px">
+                    <!-- <option value="">Choose service</option> -->
+                    <!-- <option value="Admin">Admin</option> -->
+                    <option value="Reception">Reception</option>
+                  </select>
+                  
+                </div>
+                </div>
+              </div>
+              <div class="mt-4 pt-2">
+                <input class="btn btn-outline-dark btn-lg px-2 text-white bg-dark" type="submit" value="Submit"
+                 style="position:relative;bottom:45px;left:200px;width: 120px;" [disabled]="signupForm.invalid"/>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>

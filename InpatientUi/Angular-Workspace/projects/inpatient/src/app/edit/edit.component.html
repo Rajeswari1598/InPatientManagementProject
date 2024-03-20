@@ -1,0 +1,30 @@
+<div *ngIf="details" class="container" >
+    <form [formGroup]="billingForm" (ngSubmit)="submit()">
+        <!-- <h2>hello{{ billingForm.get('billId').valu }}</h2> -->
+    
+        <h3>Billing Details</h3>
+        <label for="billId"><b>Bill ID</b></label>
+        <input type="text" formControlName="billId">
+    
+        <label for="bedallocationId"><b>Bed No</b></label>
+        <input type="text" formControlName="bedAllocationId">
+    
+        <label for="paidAmount"><b>Paid Amount</b></label>
+        <input type="number" formControlName="paidAmount">
+    
+        <label for="discount"><b>Discount</b></label>
+        <input type="number" formControlName="discount">
+    
+        <label for="totalAmount"><b>Total Amount</b></label>
+        <input type="number" formControlName="totalAmount">
+    
+        <label for="status"><b>Status</b></label>
+        <input type="text" formControlName="paymentStatus">
+    
+        <button type="submit" >Submit</button>
+    </form>
+</div>
+<div class="mt-4" style="position:relative;opacity: 0;">
+    <h5>Form Values</h5>
+    <pre>{{ billingForm.value}}</pre>
+</div>

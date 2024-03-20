@@ -1,0 +1,5 @@
+package com.patient.exception;
+
+public class PatientDetailsNotFoundException {
+
+}

@@ -1,0 +1,99 @@
+package com.admin.service.implimentation;
+
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.admin.bean.DepartmentBean;
+import com.admin.entity.Department;
+import com.admin.exception.RecordNotFoundException;
+import com.admin.repository.DepartmentRepository;
+import com.admin.service.implementation.DepartmentServiceImpl;
+
+@SpringBootTest
+public class DepartmentServiceImplTest {
+
+    @Mock
+    private DepartmentRepository departmentRepository;
+
+    @InjectMocks
+    private DepartmentServiceImpl departmentService;
+
+    @Test
+    public void testSaveDepartment() {
+        DepartmentBean departmentBean = new DepartmentBean();
+        departmentBean.setName("Test Department");
+
+        Department department = new Department();
+        department.setId(1L);
+        department.setName("Test Department");
+
+        when(departmentRepository.getByName("Test Department")).thenReturn(null);
+        when(departmentRepository.save(any())).thenReturn(department);
+
+        DepartmentBean savedDepartment = departmentService.save(departmentBean);
+
+        Assertions.assertEquals(departmentBean.getName(), savedDepartment.getName());
+    }
+
+    @Test
+    public void testGetDepartmentById() {
+        Department department = new Department();
+        department.setId(1L);
+        department.setName("Test Department");
+
+        when(departmentRepository.findById(1L)).thenReturn(Optional.of(department));
+
+        DepartmentBean departmentBean = departmentService.getById(1L);
+
+        Assertions.assertEquals(department.getName(), departmentBean.getName());
+    }
+
+    @Test
+    public void testGetAllDepartments() {
+        List<Department> departments = new ArrayList<>();
+        Department department1 = new Department();
+        department1.setId(1L);
+        department1.setName("Department 1");
+        departments.add(department1);
+
+        Department department2 = new Department();
+        department2.setId(2L);
+        department2.setName("Department 2");
+        departments.add(department2);
+
+        when(departmentRepository.findAll()).thenReturn(departments);
+
+        List<DepartmentBean> departmentBeans = departmentService.getAll();
+
+        Assertions.assertEquals(2, departmentBeans.size());
+    }
+
+    @Test
+    public void testDeleteDepartment() {
+        Department department = new Department();
+        department.setId(1L);
+        department.setName("Test Department");
+
+        when(departmentRepository.findById(1L)).thenReturn(Optional.of(department));
+
+        departmentService.delete(1L);
+
+        verify(departmentRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void testDeleteDepartmentNotFound() {
+        when(departmentRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(RecordNotFoundException.class, () -> departmentService.delete(1L));
+    }
+}

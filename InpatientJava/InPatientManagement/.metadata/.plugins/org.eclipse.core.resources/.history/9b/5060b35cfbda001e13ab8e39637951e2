@@ -1,0 +1,17 @@
+  server.port=8082
+server.servlet.context-path=/billing
+spring.datasource.url=jdbc:mysql://localhost:3306/inpatitent_management_system
+
+
+
+
+spring.datasource.username=root
+spring.datasource.password=admin
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.show-sql=true
+spring.jpa.generate-ddl=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+
+
+
+

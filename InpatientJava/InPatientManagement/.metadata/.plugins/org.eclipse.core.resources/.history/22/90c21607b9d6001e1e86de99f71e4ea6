@@ -1,0 +1,29 @@
+server.port=8083
+
+
+#spring.datasource.url= jdbc:mysql://localhost:3306/inpatient_management_system
+spring.datasource.url=jdbc:mysql://localhost:3306/inpatient_management_system?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+
+useSSL=false&allowPublicKeyRetrieval=true
+
+spring.datasource.username=root
+spring.datasource.password=admin
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.show-sql=true
+
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+spring.mvc.pathmatch.matching-strategy=ant-path-matcher
+spring.jackson.serialization.fail-on-empty-beans=false
+
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=nagajyothi.bathula45@gmail.com
+spring.mail.password=cnwe botj kfry dhqw
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+
+

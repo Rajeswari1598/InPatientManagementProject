@@ -1,0 +1,116 @@
+<div class="container-fluid">
+    <div class="row" style="position:relative;right:50px;top:20px ;">
+      <div class="col-3"></div>
+      <div class="col-9">
+        <div class="row mb-3">
+          <h2 style="position:relative;z-index:1;color: white;top:150px;left:100px">Doctor</h2>
+          <div class="col d-flex justify-content-end">
+            <button class="btn btn-dark me-2" (click)="addNewDoctor()" style="position:relative;top:150px;right:250px;width:120px;height:45px;">Add</button>
+          </div>
+        </div>
+        <table class="table table-bordered" style="position:relative;top:150px;right:200px">
+          <thead>
+            <tr>
+              <!-- <th>Doctor ID</th> -->
+              <th>Doctor Name</th>
+              <th>Department Name</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let doctor of doctors; let i = index">
+              <tr>
+                <!-- <td>{{ doctor.id }}</td> -->
+                <td>
+                  <ng-container *ngIf="!isEditMode(i); else editMode">
+                    {{ doctor[0] }}
+                  </ng-container>
+                  <ng-template #editMode>
+                    <input type="text" [(ngModel)]="doctor.name" (keyup.enter)="saveDoctor(doctor)">
+                  </ng-template>
+                </td>
+                <td>{{ doctor[2] }}</td>
+                <td>{{doctor[1]}}</td>
+                <td>
+                  <ng-container *ngIf="!isEditMode(i)">
+                    <button class="btn btn-lg me-2" (click)="toggleEditMode(i)"><i class="fa-regular fa-pen-to-square" ></i></button>
+                  </ng-container>
+                  <button class="btn btn-lg " (click)="deletedoctor(doctor)"><i class="fa-solid fa-trash-can" style="color:red;"></i></button>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="showNewRow">
+                <!-- <td><input type="number" [(ngModel)]="newDoctor.id"></td> -->
+              <td><input type="text" [(ngModel)]="newDoctor.name"></td>
+              <td>
+                <select [(ngModel)]="newDoctor.departmentId">
+                  <option *ngFor="let department of departments" [ngValue]="department.id">{{ department.name }}</option>
+                </select>
+                
+              </td>
+              <td><input type="text" [(ngModel)]="newDoctor.status"></td>
+              <td>
+                <button class="btn btn-primary me-2" (click)="submitNewDoctor(newDoctor.id, newDoctor.name , newDoctor.departmentId )">Submit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+<!-- <div class="row">
+<div class="col-3"></div>
+<div class="col-9">
+<div>
+  <label>Choose the Doctor</label>
+  <select name="" id=""  [(ngModel)]="doctorName">
+    <option>--Select---</option>
+    <option *ngFor="let doctor of doctors" [ngValue]="doctor.name">{{doctor.name}}</option>
+  </select>
+</div>
+</div>
+</div>
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-10">
+    <div class="row mb-3">
+      <div class="col d-flex justify-content-end">
+        <button class="btn btn-success me-2" (click)="getPatientsByDoctor()">Get Details</button>
+      </div>
+    </div>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>BedNo</th>
+          <th>RoomNo</th>
+          <th>WardName</th>
+          <th>Department</th>
+        </tr>
+      </thead>
+       <tbody>
+        <tr *ngFor="let row of patientDetails">
+          <td *ngFor="let value of row">{{ value }}</td>
+        </tr> 
+       </tbody>
+       </table>
+</div>
+</div> -->
+
+<!-- <div>
+  <form (ngSubmit)="loadRegistrations()">
+    <input type="text" [(ngModel)]="name" name="doctorName" placeholder="Enter Doctor's Name">
+    <button type="submit">Load Registrations</button>
+  </form>
+  
+  
+  <ul>
+    <li *ngFor="let registration of registrations">
+           {{registration[0]}}
+    </li>
+  </ul>
+</div> -->

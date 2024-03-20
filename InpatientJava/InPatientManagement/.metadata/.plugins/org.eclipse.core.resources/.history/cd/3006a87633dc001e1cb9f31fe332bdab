@@ -1,0 +1,109 @@
+package com.admin.contollertest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.admin.bean.RoomBean;
+import com.admin.controller.RoomController;
+import com.admin.entity.RoomEntity;
+import com.admin.service.RoomService;
+
+@ExtendWith(MockitoExtension.class)
+public class RoomControllerTest {
+
+	@Mock
+	private RoomService roomService;
+
+	@InjectMocks
+	private RoomController roomController;
+
+	private RoomBean roomBean;
+
+	@BeforeEach
+	public void setUp() {
+		roomBean = new RoomBean();
+		roomBean.setId(1L);
+		// Initialize other properties if needed
+	}
+
+	@Test
+	public void testSave() {
+		doNothing().when(roomService).save(any(RoomBean.class));
+
+		ResponseEntity<RoomBean> response = roomController.save(roomBean);
+
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertEquals(roomBean, response.getBody());
+	}
+
+	@Test
+	public void testGetAll() {
+		List<RoomBean> roomList = new ArrayList<>();
+		roomList.add(roomBean);
+		when(roomService.getAll()).thenReturn(roomList);
+
+		ResponseEntity<List<RoomBean>> response = roomController.getAll();
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(roomList, response.getBody());
+	}
+
+	@Test
+	public void testGetAllByWard() {
+		List<RoomEntity> roomEntityList = new ArrayList<>();
+		// Add RoomEntity instances to roomEntityList
+		when(roomService.findByWardId(1L)).thenReturn(roomEntityList);
+
+		ResponseEntity<List<RoomEntity>> response = roomController.getAllByWard(1L);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(roomEntityList, response.getBody());
+	}
+
+	@Test
+    public void testGetById() {
+        when(roomService.getById(1L)).thenReturn(roomBean);
+
+        ResponseEntity<RoomBean> response = roomController.getById(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(roomBean, response.getBody());
+    }
+
+//	@Test
+//	public void testDelete() {
+//		doNothing().when(roomService).delete(1L);
+//
+//		ResponseEntity<String> response = roomController.delete(1L);
+//
+//		assertEquals(HttpStatus.OK, response.getStatusCode());
+//		assertEquals(null, response.getBody());
+//	}
+
+//	@Test
+//    public void testPut() throws Exception {
+//        when(roomService.getById(1L)).thenReturn(roomBean);
+//        doNothing().when(roomService).save(any(RoomBean.class));
+//
+//        ResponseEntity<RoomBean> response = roomController.put(roomBean);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(roomBean, response.getBody());
+//    }
+
+	// Additional test methods for other endpoints if needed
+}

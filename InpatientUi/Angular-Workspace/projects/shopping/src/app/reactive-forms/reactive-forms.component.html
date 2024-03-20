@@ -1,0 +1,36 @@
+<div class="Container-fluid">
+    <div class="row">
+        <div class="col">
+            <form  [formGroup]="reactiveformref">
+                <dl>
+                    <dt>Name</dt>
+                    <dd><input type="text" formControlName="Name"></dd>
+                    <dt>Age</dt>
+                    <dd><input type="text" formControlName="Age"></dd>
+                    <div>
+                        <dl formGroupName="Address">
+                            <dt>City</dt>
+                            <dd>
+                                <select formControlName="City">
+                                    <option value="">Hyd</option>
+                                    <option value="">Ban</option>
+                                    <option value="">Chennai</option>
+                                </select>
+                            </dd>
+                            <dt>pincode</dt>
+                            <dd><input type="text" formControlName="Pincode"></dd>
+                        </dl>
+                    </div>
+                </dl>
+            </form>
+        </div>
+        <div class="col">
+            <dl>
+                <dt>Name</dt>
+                <dd>{{reactiveformref.value.Name}}</dd>
+                <dt>Age</dt>
+                <dd>{{reactiveformref.value.Age}}</dd>
+            </dl>
+        </div>
+    </div>
+</div>

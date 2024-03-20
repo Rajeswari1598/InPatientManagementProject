@@ -1,0 +1,47 @@
+<div class="tablediv">
+  <h2 style="color: white;text-align: center;position:relative;max-width: 700px; top: 60px; left: 130px;" >Doctor Visit List</h2>
+<div style="background-color: white; height: 50px; width: 380px; position: relative;top: 150px; border-radius: 10px;">
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-9">
+    <div style="position:relative;top:20px;z-index: 1; position: relative; right: 60px;" >
+      <label style="color:black;position: relative; bottom:5px">Choose  Doctor:</label>
+      <select name="" id=""  [(ngModel)]="doctorName" style="border-radius: 5px; width: 140px;position: relative; bottom:5px">
+        <option>--Select---</option>
+        <option *ngFor="let doctor of doctors" [ngValue]="doctor.name" >{{doctor.name}}</option>
+      </select>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+      <!-- <div class="col-2"></div> -->
+      <div class="col-10">
+        <div class="row mb-3">
+          <div class="col d-flex justify-content-end">
+            <button class="btn btn-lg" (click)="getPatientsByDoctor()" style="z-index: 1; position: relative; bottom: 15px; left: 30px;" ><i style="position:relative;bottom:5px"class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
+          </div>
+        </div>
+        </div>
+      </div>
+    <div style=" z-index:1 ; position: relative; top: 0px;">
+        <table class="table table-bordered " style="width: 900px; position: relative; right: 5px; bottom: 20px;" >
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Bed No</th>
+              <th>Room No</th>
+              <th>Ward Name</th>
+              <th>Department</th>
+            </tr>
+          </thead>
+           <tbody>
+            <tr *ngFor="let row of patientDetails">
+              <td *ngFor="let value of row">{{ value }}</td>
+            </tr> 
+           </tbody>
+           </table>
+           </div>
+</div>
+    </div>
+    

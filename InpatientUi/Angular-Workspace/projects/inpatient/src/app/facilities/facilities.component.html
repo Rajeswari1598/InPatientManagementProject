@@ -1,0 +1,36 @@
+<div class="facility">
+  <img src="https://as1.ftcdn.net/v2/jpg/02/50/38/52/1000_F_250385294_tdzxdr2Yzm5Z3J41fBYbgz4PaVc2kQmT.jpg"
+    style="position: relative; border-radius: 50px; height: 100px; width: 100px; bottom:50px;" />
+  <div style="display: flex; flex-direction: column; align-items: center">
+    <div *ngIf="role === 'Admin'" (click)="toggleAdmin()">
+      <h2 style="padding-right:45px;">Admin Service</h2>
+    </div>
+    <div class="nav">
+      <ul *ngIf="role === 'Admin' && adminVisible" id="list">
+        <li ><a routerLink="department" [class.active]="activeTab === 'department'" (click)="setActiveTab('department')">Departments</a></li>
+        <li><a routerLink="wards">Wards</a></li>
+        <li><a routerLink="rooms">Rooms</a></li>
+        <li><a routerLink="roomkind">RoomType</a></li>
+        <li><a routerLink="bed">Bed</a></li>
+        <li><a routerLink="doctor">Doctor</a></li>
+        <!-- <li><a routerLink="patient">Patient Registration</a></li> -->
+      </ul>
+    </div>
+
+    <div *ngIf="(role === 'receptionist' || role === 'Admin')" (click)="toggleReception()">
+      <h2>Reception Service</h2>
+    </div>
+    <div>
+      <ul *ngIf="(role === 'receptionist' || role === 'Admin') && receptionVisible">
+        <li><a routerLink="patient">Patient Registration</a></li>
+        <li><a routerLink="bedallocation">Bed Allocation</a></li>
+        <li><a routerLink="billing">Billing Details</a></li>
+        <li><a routerLink="doctorlist">Doctors V isitlist</a></li>
+        <li><a routerLink="enquiry">Enquiry</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div style="padding-left:16%;">
+  <router-outlet></router-outlet>
+</div>

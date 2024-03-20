@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="heading">
+    <h3 style="position: relative;left:140px">Room Details</h3>
+  </div>
+  <form [formGroup]="roomForm" (ngSubmit)="submit()">
+    <label for="roomNo"><b>Room No</b></label>
+    <input type="number" formControlName="roomNo" placeholder="Enter roomNo">
+    <label for="roomSharing"><b>Room Sharing</b></label>
+    <input type="number" formControlName="roomSharing" placeholder="Enter roomSharing">
+    <label for="roomPrice"><b>Room Pricing</b></label>
+    <input type="number" formControlName="roomPrice" placeholder="Enter roomPrice">
+    <label for="roomTypeId"><b>Room Type</b></label>
+    <select id="roomTypeId" formControlName="roomTypeId" style="position:relative;width:270px;height:40px;border-radius:10px;background-color: aliceblue;">
+      <option *ngFor="let room of rooms" [value]="room.id">{{room.name}}</option>
+     </select>
+     <label for="wardId"><b>Ward</b></label>
+     <select id="wardId" formControlName="wardId" style="position:relative;width:270px;height:40px;border-radius:10px;background-color: aliceblue;">
+       <option *ngFor="let ward of wards" [value]="ward.id">{{ward.name}} -{{ward.departmentId.name}}</option>
+      </select>
+    <button type="submit" [disabled]="roomForm.invalid">Submit</button>
+  </form>
+</div>
+
+
+
+<div class="mt-4" style="position:relative;opacity: 0;">
+    <h5>Form Values</h5>
+    <pre>{{ roomForm.value}}</pre>
+</div>
+<!-- <div>
+<form [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+    <label for="roomNumber">Room Number:</label>
+    <input type="text" id="roomNumber" formControlName="roomNumber">
+    <div *ngIf="roomForm.get('roomNo').errors?.required" class="error">Room Number is required</div>
+  
+    <label for="roomSharing">Room Sharing:</label>
+    <input type="text" id="roomSharing" formControlName="roomSharing">
+    <div *ngIf="roomForm.get('roomSharing').errors?.required" class="error">Room Sharing is required</div>
+  
+    <label for="roomPrice">Room Price:</label>
+    <input type="text" id="roomPrice" formControlName="roomPrice">
+    <div *ngIf="roomForm.get('roomPrice').errors?.required" class="error">Room Price is required</div>
+  
+    <label for="roomType">Room Type:</label>
+    <select id="roomType" formControlName="roomType">
+      <option value="" disabled selected>Select Room Type</option>
+      <option *ngFor="let type of roomTypes" [value]="type">{{ type }}</option>
+    </select>
+    <div *ngIf="roomForm.get('roomType').errors?.required" class="error">Room Type is required</div>
+  
+    <label for="wardType">Ward Type:</label>
+    <select id="wardType" formControlName="wardType">
+      <option value="" disabled selected>Select Ward Type</option>
+      <option *ngFor="let ward of wards" [value]="ward.wardType">{{ ward.wardType }}</option>
+    </select>
+    <div *ngIf="roomForm.get('wardType').errors?.required" class="error">Ward Type is required</div>
+  
+    <button type="submit">Submit</button>
+  </form>
+</div> -->
+  

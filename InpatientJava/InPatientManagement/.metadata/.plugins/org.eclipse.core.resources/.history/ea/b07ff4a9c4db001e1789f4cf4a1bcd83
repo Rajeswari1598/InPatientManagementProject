@@ -1,0 +1,122 @@
+package com.admin.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.admin.bean.LoginBean;
+import com.admin.bean.RegistrationBean;
+import com.admin.entity.RegistrationForm;
+import com.admin.exception.EmailAlreadyExistsException;
+import com.admin.exception.EmailNotFoundException;
+import com.admin.service.RegistrationService;
+
+@RestController
+@RequestMapping("register")
+@CrossOrigin(origins = "**")
+public class RegistrationController {
+
+	@Autowired
+	RegistrationService registrationService;
+	private static Logger log = LoggerFactory.getLogger(RegistrationController.class.getSimpleName());
+
+	@PostMapping("/save")
+	public ResponseEntity<RegistrationBean> save(@RequestBody RegistrationBean registrationBean) {
+		log.info("Saving Registration entity");
+		try {
+			registrationService.saveRegistration(registrationBean);
+			ResponseEntity<RegistrationBean> responseEntity = new ResponseEntity<>(registrationBean,
+					HttpStatus.CREATED);
+			log.info("Saving Registration entity is done");
+			return responseEntity;
+		} catch (EmailAlreadyExistsException e) {
+			log.error("email is alred exist");
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<RegistrationForm> login(@RequestBody LoginBean loginBean) {
+		log.info("checking email is present or not");
+		RegistrationForm user = registrationService.validateLogin(loginBean);
+
+		if (user != null) {
+
+			log.info("login sucessfull");
+			return new ResponseEntity<RegistrationForm>(user, HttpStatus.OK);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+	}
+
+	@GetMapping("/generateOtp")
+	public ResponseEntity<RegistrationForm> generateOtpAndSendEmail(@RequestParam("email") String email) {
+
+		try {
+			log.info("Generate otp by using email");
+			RegistrationForm user = registrationService.forgetPassword(email);
+			if (user != null) {
+				log.info("Generate otp by using email is done");
+				return new ResponseEntity<RegistrationForm>(user, HttpStatus.OK);
+			} else {
+
+				return new ResponseEntity<RegistrationForm>(HttpStatus.UNAUTHORIZED);
+			}
+
+		} catch (EmailNotFoundException e) {
+
+			log.error("email id is not valid");
+			return new ResponseEntity<RegistrationForm>(HttpStatus.NOT_FOUND);
+
+		}
+	}
+
+	@PostMapping("/verify")
+	public ResponseEntity<String> verifyOtp(@RequestParam String email, @RequestParam String enteredOtp) {
+		try {
+			log.info("verify the otp by using email");
+			if (registrationService.verifyOtp(email, enteredOtp)) {
+				String jsonString = "{\"message\":\"Verified Successfully\"}";
+				log.info("verify the  otp by using email is done");
+
+				return ResponseEntity.status(HttpStatus.OK).header("Content-Type", "application/json").body(jsonString);
+			} else {
+				log.info("Sending  the invalid otp");
+				String jsonString = "{\"message\":\"Invalid OTP\"}";
+				System.out.println("jsonString" + jsonString);
+
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("Content-Type", "application/json")
+						.body(jsonString);
+			}
+		} catch (EmailNotFoundException e) {
+
+			String jsonString = "{\"message\":\"wrong otp\"}";
+			log.error("error handled");
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).header("Content-Type", "application/json")
+					.body(jsonString);
+
+		}
+	}
+
+	@PutMapping("/password")
+	public ResponseEntity<String> updatePassword(@RequestParam String email, @RequestParam String password) {
+		log.info("Update the password");
+
+		registrationService.updatePassword(email, password);
+		log.info("Updated the  password successfully");
+		return new ResponseEntity<String>("updated successfully", HttpStatus.OK);
+	}
+
+}

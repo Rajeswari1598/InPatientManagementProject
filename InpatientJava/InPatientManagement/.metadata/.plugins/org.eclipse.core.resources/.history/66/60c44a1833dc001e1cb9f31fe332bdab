@@ -1,0 +1,94 @@
+package com.admin.contollertest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.admin.bean.BedAllocationBean;
+import com.admin.controller.BedAllocationController;
+import com.admin.service.BedAllocationService;
+
+@ExtendWith(MockitoExtension.class)
+public class BedAllocationControllerTest {
+
+	@Mock
+	private BedAllocationService bedAllocationService;
+
+	@InjectMocks
+	private BedAllocationController bedAllocationController;
+
+	private BedAllocationBean bedAllocationBean;
+
+	@BeforeEach
+	public void setUp() {
+		bedAllocationBean = new BedAllocationBean();
+		bedAllocationBean.setId(1);
+		bedAllocationBean.setNoOfDays(3);
+		// Initialize other properties if needed
+	}
+
+	@Test
+    public void testSave() {
+        when(bedAllocationService.save(any(BedAllocationBean.class))).thenReturn(bedAllocationBean);
+
+        ResponseEntity<BedAllocationBean> response = bedAllocationController.saveBedAllocationDetails(bedAllocationBean);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(bedAllocationBean, response.getBody());
+    }
+
+	@Test
+    public void testGetById() {
+        when(bedAllocationService.getById(1)).thenReturn(bedAllocationBean);
+
+        ResponseEntity<BedAllocationBean> response = bedAllocationController.getBedAllocationDetailsById(1);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(bedAllocationBean, response.getBody());
+    }
+
+	@Test
+	public void testGetAll() {
+		List<BedAllocationBean> bedAllocationList = new ArrayList<>();
+		bedAllocationList.add(bedAllocationBean);
+		when(bedAllocationService.getAll()).thenReturn(bedAllocationList);
+
+		ResponseEntity<List<BedAllocationBean>> response = bedAllocationController.getAll();
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(bedAllocationList, response.getBody());
+	}
+
+	@Test
+	public void testDeleteById() {
+		doNothing().when(bedAllocationService).delete(1);
+
+		ResponseEntity<String> response = bedAllocationController.deleteById(1);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals("Deleted Successfully", response.getBody());
+	}
+
+//	@Test
+//    public void testPut() throws Exception {
+//        when(bedAllocationService.getById(1)).thenReturn(bedAllocationBean);
+//
+//        ResponseEntity<String> response = bedAllocationController.put(bedAllocationBean);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals("Updated successfully", response.getBody());
+//    }
+}

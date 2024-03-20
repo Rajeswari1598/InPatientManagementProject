@@ -1,0 +1,81 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-9">
+      <div class="row mb-3">
+        <div class="col d-flex justify-content-end">
+          <button class="btn btn-dark me-2" (click)="addNewRow()" style="position:relative;top:150px;right:230px; width: 120px; height: 45px;">Add </button>
+        </div>
+      </div>
+      <div class="tablediv" >
+        <h2 style="color: white;text-align: center;position:relative;max-width: 700px; top: 60px; right: 180px;" >Beds</h2>
+      <table class="table" style="position:relative;top:150px;right:205px;justify-content: center;box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.717); border-collapse: collapse; right: 200px;top: 120px;">
+        <thead>
+          <tr>
+            <!-- <th>ID</th> -->
+            <th>BedNo</th>
+            <th>RoomNo</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let bed of beds; let i = index">
+            <tr>
+              <!-- <td>{{ bed.id }}</td> -->
+              <!-- <ng-container *ngIf="!isEditMode(i); else editMode">
+
+              <td >{{ bed.bedNo }}</td>
+            </ng-container>
+            <ng-template #editMode>
+              <input type="text" [(ngModel)]="bed.bedNo" (keyup.enter)="editBed(i)">
+            </ng-template> -->
+
+            <td style="position:relative;max-width:30px;">
+              <ng-container *ngIf="!isEditMode(i); else editMode">
+                {{ bed.bedNo }}
+              </ng-container>
+              <ng-template #editMode>
+                <input style="position:relative;max-width:70px;" type="number" [(ngModel)]="bed.bedNo" (keyup.enter)="editBed(i)">
+              </ng-template>
+            </td>
+
+              <td>
+                  {{bed.roomId?.roomNo}}_{{bed.roomId?.wardId?.name}}_{{bed.roomId?.wardId?.departmentId?.name}}
+              </td>
+              <td>{{ bed.status }}</td>
+              <td >
+                <ng-container *ngIf="!isEditMode(i)">
+                  <button class="btn btn-lg  me-2" (click)="toggleEditMode(i)"><i class="fa-regular fa-pen-to-square" ></i></button>
+                </ng-container>
+                  <button class="btn btn-lg me-2" (click)="deleteBed(bed?.id)"><i class="fa-solid fa-trash-can" style="color:red;"></i></button>
+                
+              </td>
+              <!-- <td>
+                <ng-template #editMode>
+                  <input type="text" [(ngModel)]="bed.bedNo" (keyup.enter)="editBed(i)">
+                </ng-template>
+              </td> -->
+
+            </tr>
+          </ng-container>
+          <tr *ngIf="showNewRow">
+            <td><input type="number" [(ngModel)]="newBed.bedNo"></td>
+            <td>
+              <select [(ngModel)]="newBed.roomId">
+                <option *ngFor="let room of rooms" [ngValue]="room">{{room.roomNo}}-{{room.wardId.name}}-{{room.wardId.departmentId.name}}</option>
+              </select>
+            </td>
+
+            <td><input type="text" [(ngModel)]="newBed.status"></td>
+
+            <td>
+              <button class="btn btn-primary me-2" (click)="submitNewBed()">Submit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

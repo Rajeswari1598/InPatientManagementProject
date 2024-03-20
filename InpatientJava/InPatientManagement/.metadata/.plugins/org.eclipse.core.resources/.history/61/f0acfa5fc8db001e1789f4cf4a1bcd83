@@ -1,0 +1,5 @@
+package com.admin.exception;
+
+public class RoomTypeDetailsNotFoundException {
+
+}

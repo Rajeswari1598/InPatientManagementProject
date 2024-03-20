@@ -1,0 +1,16 @@
+ .card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+    }
+    .card-registration .select-arrow {
+    top:10px;
+    }
+#reg{
+    position: relative;
+    bottom:10px;
+}
+input{
+    background-color:aliceblue;
+}

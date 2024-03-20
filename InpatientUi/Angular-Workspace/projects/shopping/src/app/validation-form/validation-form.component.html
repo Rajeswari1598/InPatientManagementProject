@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <form action="" #frmRegister="ngForm">
+                <dl>
+                    <dt>UserName</dt>
+                    <dd><input type="text" required minlength="4" ngModel name="UserName" #UserName="ngModel"></dd>
+                    <dd *ngIf="UserName.invalid && UserName.touched" class="text-danger">
+                        <span *ngIf="UserName.errors?.['required']">Name is required</span>
+                        <span *ngIf="UserName.errors?.['minlength']">name is short you have to enter</span>
+                    </dd>
+                    <dt>Age</dt>
+                    <dd><input type="text" required  ngModel name="Age" #Age="ngModel"></dd>
+                    <dt>MobileNumber</dt>
+                    <dd><input type="text"required pattern="\+91\d{10}" ngModel name="MobileNumber" #MobileNumber="ngModel"></dd>
+                    <dd *ngIf="MobileNumber.invalid && MobileNumber.touched">
+                          <span *ngIf="MobileNumber.errors?.['required']">Number is required</span>
+                          <span *ngIf="MobileNumber.errors?.['pattern']">Number is invalid </span>
+                    </dd>
+                </dl>
+                <button class="btn btn-primary">Register</button>
+            </form>
+        </div>
+        <div class="col">
+            <dl>
+                <dt>Not Modified</dt>
+                <dd>{{frmRegister.pristine}}</dd>
+                <!-- <dt>Valid</dt>
+                <dd>{{frmRegister.Valid}}</dd> -->
+                <dt>InValid</dt>
+                <dd>{{frmRegister.invalid}}</dd>
+                <dt>Submitted</dt>
+                <dd>{{frmRegister.submitted}}</dd>
+                <dt>Dirty</dt>
+                <dd>{{frmRegister.dirty}}</dd>
+            </dl>
+        </div>
+        <div class="col">
+            <h2>Form Details</h2>
+            <dl>
+                <dt>UserName</dt>
+                <dd>{{frmRegister.value.UserName}}</dd>
+                <dt>Age</dt>
+                <dd>{{frmRegister.value.Age}}</dd>
+                <dt>MobileNumber</dt>
+                <dd>{{frmRegister.value.MobileNumber}}</dd>
+                <dt>submit</dt>
+                <dd>{{frmRegister.value.submit}}</dd>
+            </dl>
+        </div> 
+    </div>
+</div>
+

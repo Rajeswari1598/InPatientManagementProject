@@ -1,0 +1,16 @@
+package com.admin.exception;
+
+public class WardAlreadyExistsException extends RuntimeException{
+
+	public WardAlreadyExistsException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public WardAlreadyExistsException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	
+}

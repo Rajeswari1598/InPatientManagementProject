@@ -1,0 +1,64 @@
+<!-- <div> -->
+    <!-- <div class="col1">
+        <dl>
+            <dt>ProductName</dt>
+            <dd><input type="text" name="ProductName" ngModel #ProductName="ngModel"></dd>
+        </dl>
+        <dl>
+            <dt>ProductPrice</dt>
+            <dd><input type="text" name="ProductPrice" ngModel #ProductPrice="ngModel"></dd>
+        </dl>
+        <dl>
+            <dt>ProductRating</dt>
+            <dd><input type="text" name="ProductRating" ngModel #ProductRating="ngModel"></dd>
+        </dl>
+    </div>
+    <div class="col2">
+        <h1>Product Details</h1>
+        <dl>
+            <dt>Name</dt>
+            <dd>{{ProductName.value}}</dd>
+        </dl>
+        <dl>
+            <dt>Price</dt>
+            <dd>{{ProductPrice.value}}</dd>
+        </dl>
+        <dl>
+            <dt>Rating</dt>
+            <dd>{{ProductRating.value}}</dd>
+        </dl>
+    </div> -->
+    <div>
+    <form action="" #for="ngForm" (submit)="submitDetails(for.value)">
+        <div class="col1">
+            <dl>
+                <dt>ProductName</dt>
+                <dd><input type="text" name="ProductName" ngModel #ProductName="ngModel"></dd>
+            </dl>
+            <dl>
+                <dt>ProductPrice</dt>
+                <dd><input type="text" name="ProductPrice" ngModel #ProductPrice="ngModel"></dd>
+            </dl>
+            <dl>
+                <dt>ProductRating</dt>
+                <dd><input type="text" name="ProductRating" ngModel #ProductRating="ngModel"></dd>
+            </dl>
+            <button>submit</button>  
+        </div>
+    </form>
+    <div class="col2">
+        <h1>Product Details</h1>
+        <dl>
+            <dt>Name</dt>
+            <dd>{{ProductName.value}}</dd>
+        </dl>
+        <dl>
+            <dt>Price</dt>
+            <dd>{{ProductPrice.value}}</dd>
+        </dl>
+        <dl>
+            <dt>Rating</dt>
+            <dd>{{ProductRating.value}}</dd>
+        </dl>
+    </div> 
+</div>

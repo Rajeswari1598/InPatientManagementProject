@@ -1,0 +1,82 @@
+.table {
+  position:absolute;
+    width: 100%;
+    
+    border-collapse: collapse;
+    margin-top: 5rem;
+    background-color: white;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding:10px;
+    text-align: left;
+    text-align: center;
+  }
+  /* styles.css */
+
+/* Additional styles for the "Add Patient" button */
+.patient-link {
+  position: relative;
+  top: 30px;
+  background-color: #28a746d4; /* Green color for the button */
+  color: #fff; /* White text color */
+  border: none; /* Remove button border */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  border-radius: 10px; /* Optional: Add rounded corners */
+  cursor: pointer;
+}
+.edit {
+  position: relative;
+  /* top: 30px; */
+  /* background-color: #2844a7d4;  */
+  color: #fff; /* White text color */
+  border: none; /* Remove button border */
+  padding: 4px 10px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  cursor: pointer;
+}
+
+.patient-link:hover {
+  background-color: #218838; /* Darker green color on hover */
+}
+.pen a {
+  background-color: transparent;
+}
+/* Custom styles for SweetAlert dialogs */
+.pagination {
+  text-align: center;
+}
+
+.pagination button {
+  background-color:black; /* Green background */
+  border: none;
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  text-align: center; /* Centered text */
+  text-decoration: none; /* No underline */
+  display: inline-block; /* Make it inline */
+  font-size: 16px; /* Increase font size */
+  margin: 10px 10px; /* Add some margin */
+  cursor: pointer; /* Pointer cursor on hover */
+  border-radius: 5px; /* Rounded corners */
+  margin-left: 40px;
+  margin-top: 30px;
+}
+
+.pagination button:hover {
+  background-color: black; /* Darker green on hover */
+}
+
+.pagination button:disabled {
+  background-color: #cccccc; /* Grey background when disabled */
+  cursor: not-allowed; /* Not allowed cursor when disabled */
+}
+
+/* You can add more specific styling if needed */
+
+
+
+
+
